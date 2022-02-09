@@ -1,0 +1,43 @@
+.brand {
+    font-family: "Nunito Sans";
+    color: #6379f4;
+    font-size: calc(22px + 0.2vw);
+}
+.profile {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+.pic {
+    border-radius: 10px;
+}
+.name {
+    font-size: calc(0.9rem + 0.2vw);
+    font-family: "Nunito Sans";
+    font-weight: 600;
+}
+
+
+@media (max-width: 768px) {
+    .profile {
+        display: flex;
+        align-self: center;
+    }
+}
+@media (max-width: 576px) {
+    .profile {
+        width: 45px;
+        height: 45px;
+    }
+}
+@media (max-width: 425px) {
+    .name {
+        font-size: calc(0.8rem + 0.2vw);
+    }
+    .icon {
+        margin-left: 0;
+    }
+    .phone {
+        font-size: 12px;
+    }
+}

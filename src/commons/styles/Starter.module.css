@@ -1,0 +1,158 @@
+/* STARTER LEFT */
+.left-side {
+  background-color: #6379f4;
+  color: white;
+  min-height: 100vh;
+}
+.curve {
+  background-image: url("../../../public/Vector3.svg");
+  background-repeat: no-repeat;
+  background-position-y: 60px;
+  background-position-x: 10px;
+  background-position: cover;
+}
+.img-wrapper {
+  position: relative;
+  width: auto;
+  height: calc(200px + 30vh);
+}
+.title {
+  font-size: calc(18px + 0.2vw);
+  font-family: "Nunito Sans";
+  font-weight: 700;
+}
+.description {
+  font-family: "Nunito Sans";
+}
+
+/* ------------ */
+
+.right-side {
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+.wrapper {
+  margin-top: 11%;
+  padding: 0 11%;
+}
+.desc {
+  font-family: "Nunito Sans";
+  font-weight: 700;
+  color: #3a3d42;
+  font-size: calc(18px + 0.2vw);
+}
+.text {
+  font-family: "Nunito Sans";
+  font-size: calc(12px + 0.2vw);
+  color: #85888d;
+}
+.form input {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #afb6dd;
+  padding: 5px 10px 5px 25px;
+  background-color: none;
+  margin-bottom: 10%;
+  background-color: transparent;
+}
+.form input::placeholder {
+  color: #a9a9a9;
+}
+.form input:focus {
+  outline: none;
+  border-bottom: 2px solid #6379f4;
+}
+.input-icon1,
+.input-icon2 {
+  position: relative;
+  display: inline;
+}
+.input-icon2 {
+  padding-top: 30px;
+}
+.icon-envelope {
+  position: absolute;
+  color: #a9a9a9;
+  top: 5px;
+}
+.icon-lock {
+  position: absolute;
+  color: #a9a9a9;
+  top: 55%;
+}
+.form-input {
+  width: 100%;
+  display: inline-block;
+}
+.form-input span {
+  position: absolute;
+  cursor: pointer;
+  color: #a9a9a9;
+  right: 12%;
+  padding-top: 5px;
+}
+.forgot-password a {
+  font-family: "Nunito Sans";
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #707070;
+  font-weight: 600;
+}
+.mt-n1 {
+  margin-top: -1.5rem !important;
+  font-family: "Nunito Sans";
+}
+.button {
+  width: 100%;
+  color: white;
+  font-family: "Nunito Sans";
+  background-color: #6379f4;
+  padding: 10px;
+  font-weight: bold;
+}
+.signup {
+  font-family: "Nunito Sans";
+  font-size: calc(13px + 0.2vw);
+  color: #707070;
+}
+.signup a {
+  text-decoration: none;
+  color: #6379f4;
+  font-weight: bold;
+}
+input.error {
+  border-bottom: 1px solid red;
+}
+.icon-error {
+  color: red;
+  position: absolute;
+  top: 5px;
+}
+.icon-lock-error {
+  position: absolute;
+  color: red;
+  top: 55%;
+}
+.pinInput {
+  width: 50px;
+  height: 40px;
+  border: 2px solid #6379f4;
+}
+
+
+
+/* responsive */
+
+@media (max-width: 768px) {
+  .form-input span {
+    right: 5%;
+  }
+}
+@media (max-width: 576px) {
+  .right-side {
+    background-color: white;
+  }
+  .form-input span {
+    right: 11%;
+  }
+}

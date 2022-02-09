@@ -1,0 +1,151 @@
+.brand {
+  font-family: "Nunito";
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+.login,
+.register {
+  border-radius: 10px;
+  height: 40px;
+  font-family: "Nunito Sans";
+  font-weight: 700;
+  padding: 0 20px;
+}
+.login {
+  background-color: #6379f4;
+  border: 2px solid white;
+  color: white;
+}
+.register {
+  background-color: white;
+  color: #6379f4;
+  border-radius: 10px;
+}
+.banner {
+  min-height: 100vh;
+  background-color: #6379f4;
+}
+.curve {
+  background-image: url("../../../public/Vector2.svg");
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+.display4 {
+  font-size: 3.7rem;
+  font-family: 'Nunito Sans';
+  font-weight: bold;
+  margin-top: 25%;
+}
+.text {
+  font-family: 'Nunito Sans';
+  font-size: 1.1rem;
+}
+.btn-try {
+  border-radius: 7px;
+  color: #6379f4;
+  font-weight: 700;
+  font-size: 18px;
+}
+.bg-lighter {
+  background-color: rgba(71, 58, 209, 0.06);
+}
+.span {
+  color: #6379f4;
+}
+.title {
+  font-family: "Nunito Sans";
+  font-weight: bold;
+  font-size: 3.5rem;
+}
+.desc {
+  font-family: "Nunito Sans";
+  color: #3a3d42;
+  font-size: 1.1rem;
+  font-weight: 550;
+}
+.icon {
+  width: 65px;
+  height: 65px;
+}
+.motto {
+  font-family: "Nunito Sans";
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #3a3d42;
+}
+.description {
+  font-family: "Nunito Sans";
+  color: #3a3d42;
+  font-weight: 600;
+}
+.card {
+  border-radius: 20px;
+}
+.bg-darker {
+  background-color: #e5e5e5;
+}
+.amount {
+  color: #6379f4;
+  background-color: #e5e5e5;
+  border-radius: 70px;
+  padding: 20px 50px;
+  margin: 0;
+  font-family: "Nunito Sans";
+  font-weight: bold;
+}
+.phones {
+ margin-left: -7%;
+ margin-top: -2%;
+}
+.card-body {
+  font-family: "Nunito Sans";
+}
+.img-testimoni {
+  border-radius: 12px;
+}
+.user {
+  font-family: "Nunito Sans";
+  font-weight: bold;
+}
+.testimoni {
+  font-family: "Nunito Sans";
+  color: #3a3d42;
+}
+
+/* Footer */
+.footer {
+  background-color: #6379F4;
+  padding-top: 3%;
+  padding-bottom: 3%;
+}
+.footer-title {
+  color: white;
+  font-family: 'Nunito Sans';
+  font-weight: 700;
+  font-size: 2rem;
+}
+.footer-desc {
+  color: #EFEFEF;
+  font-size: 1rem;
+  font-family: 'Nunito Sans';
+  font-weight: 400;
+}
+.hr {
+  color: #EFEFEF;
+}
+
+
+@media (max-width: 768px){
+  .title {
+    font-size: 3rem;
+  }
+}
+@media (max-width: 576px) {
+  .display4 {
+    font-size: 3rem;
+  }
+  .title {
+    font-size: 2.8rem;
+  }
+}

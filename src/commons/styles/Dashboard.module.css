@@ -1,0 +1,59 @@
+/* Balance */
+.bg-balance {
+    background-color: #6379f4;
+    font-family: "Nunito Sans";
+    border-radius: 15px;
+}
+.balance {
+    color: #e5e5e5;
+    font-size: calc(0.9rem + 0.2vw);
+}
+.phone {
+    color: #e5e5e5;
+    font-size: calc(12px + 0.2vw); 
+}
+.modal-topup {
+    font-family: "Nunito Sans";
+}
+.desc {
+    color: #3a3d42;
+}
+.topup {
+    background-color: #6379f4;
+    border-radius: 6px;
+    width: 30%;
+    padding: 8px 0;
+    margin-left: auto;
+}
+.btn-close {
+    right: 0;
+    top: 30px;
+    cursor: pointer;
+}
+
+/* Transaction history */
+.card {
+    font-family: "Nunito Sans";
+    border-radius: 20px;
+    min-height: 74vh;
+}
+.title {
+    font-size: calc(1rem + 0.2vw);
+}
+.img-user {
+    border-radius: 6px;
+    object-fit: cover;
+}
+.img-wrapper {
+    height: 60px;
+    width: 60px;
+    margin-left: -20px;
+}
+.font {
+    font-size: 14px;
+}
+.empty {
+    min-height: 40vh;
+}
+
+

@@ -1,0 +1,57 @@
+.bg-footer {
+    background-color: #6379f4;
+    color: white;
+    font-family: "Nunito Sans";
+    font-weight: lighter;
+}
+
+/* Sidebar */
+.sidebar {
+    border-radius: 20px;
+    min-height: 100vh;
+}
+.logout {
+    margin-top: 100%;
+    cursor: pointer;
+}
+.active, .bi {
+    color: #6379f4;
+    text-decoration: none;
+}
+.modal-topup {
+    font-family: "Nunito Sans";
+}
+.desc {
+    color: #3a3d42;
+}
+.topup {
+    background-color: #6379f4;
+    border-radius: 6px;
+    width: 30%;
+    padding: 8px 0;
+    margin-left: auto;
+}
+.btn-close {
+    right: 0;
+    top: 30px;
+    cursor: pointer;
+}
+.pointer {
+    cursor: pointer;
+}
+
+@media(max-width: 576px) {
+    .card-text {
+        text-align: center;
+    }
+    .logout {
+        text-align: center;
+        margin-top: 15%;
+    }
+}
+
+@media(max-width: 425px) {
+    .card-text {
+        text-align: justify;
+    }
+}

@@ -1,0 +1,26 @@
+.card {
+    font-family: "Nunito Sans";
+    border-radius: 20px;
+    min-height: 100vh;
+}
+.select-filter {
+    border: 0;
+    border-radius: 10px;
+    background-color: #e5e5e5;
+    padding: 12px 10px;
+}
+.img-user {
+    border-radius: 6px;
+    object-fit: cover;
+}
+.img-wrapper {
+    height: 60px;
+    width: 60px;
+    margin-left: -20px;
+}
+.font {
+    font-size: 14px;
+}
+.empty {
+    min-height: 100vh;
+}
