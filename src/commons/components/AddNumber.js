@@ -41,7 +41,7 @@ function AddNumber() {
     editPhoneNumber(body, token, id)
       .then((res) => {
         console.log(res.data);
-        setIsSubmit(true);
+        // setIsSubmit(true);
         const noTelp = res.data.data.noTelp;
         console.log(noTelp)
         if (noTelp !== null) {
