@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "src/commons/styles/Starter.module.css";
 import phone from "public/phone.svg";
-import zwallet from "public/zwallet.svg";
+import zwallet from "public/Zwallet.svg";
 
 function StarterLeft() {
   return (
