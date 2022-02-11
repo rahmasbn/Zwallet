@@ -18,14 +18,14 @@ import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { loginAction } from "src/redux/actions/auth";
 import { getProfileAction } from "src/redux/actions/user";
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 
 function Login() {
   const router = useRouter();
   const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.authUser.token);
   const id = useSelector((state) => state.auth.authUser.id);
-  // const pin = useSelector((state) => state.auth.authUser.pin);
+  const pin = useSelector((state) => state.auth.authUser.pin);
   // console.log('token', auth.authUser.token);
   const dispatch = useDispatch();
 
@@ -91,27 +91,27 @@ function Login() {
     }
     if (auth.isFulfilled === true) {
       dispatch(getProfileAction(token, id));
-      // if (pin !== null) {
+      if (pin !== null) {
         toast.success("Login successful", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 3000,
         });
         router.push("/dashboard");
-      // } else {
-      //   Swal.fire({
-      //     icon: "warning",
-      //     text: "Please create your PIN to continue",
-      //     showCancelButton: false,
-      //     confirmButtonText: "Ok",
-      //   }).then((result) => {
-      //     if (result.isConfirmed) {
-      //       router.push("/createpin");
-      //       setTimeout(() => {
-      //         window.location.reload(false);
-      //       }, 5000);
-      //     }
-      //   });
-      // }
+      } else {
+        Swal.fire({
+          icon: "warning",
+          text: "Please create your PIN to continue",
+          showCancelButton: false,
+          confirmButtonText: "Ok",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push("/createpin");
+            setTimeout(() => {
+              window.location.reload(false);
+            }, 5000);
+          }
+        });
+      }
     }
     if (auth.isRejected === true) {
       // console.log(auth.err.response.data.msg)
@@ -129,7 +129,7 @@ function Login() {
     dispatch,
     id,
     token,
-    // pin,
+    pin,
   ]);
 
   const handleToggle = () => {

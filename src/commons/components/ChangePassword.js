@@ -20,7 +20,11 @@ function ChangePassword() {
     icon2: faEyeSlash,
     icon3: faEyeSlash,
   });
-  const [input, setInput] = useState({});
+  const [input, setInput] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: ""
+  });
   const [errors, setErrors] = useState({});
 
   const handleToggle1 = () => {
@@ -93,11 +97,11 @@ function ChangePassword() {
     let errors = {};
     let isValid = true;
 
-    if (typeof input["newPassword"] !== "undefined") {
+    if (typeof input.newPassword !== "undefined") {
       const validPass = new RegExp(
         "^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).{6,}$"
       );
-      if (!validPass.test(input["newPassword"])) {
+      if (!validPass.test(input.newPassword)) {
         isValid = false;
         errors["newPassword"] =
           "Password must be at least 6 characters, including uppercase letter and numbers";
@@ -105,10 +109,10 @@ function ChangePassword() {
     }
 
     if (
-      typeof input["newPassword"] !== "undefined" &&
-      typeof input["confirmPassword"] !== "undefined"
+      typeof input.newPassword !== "undefined" &&
+      typeof input.confirmPassword !== "undefined"
     ) {
-      if (input["newPassword"] !== input["confirmPassword"]) {
+      if (input.newPassword !== input.confirmPassword) {
         isValid = false;
         errors["confirmPassword"] = "Passwords don't match";
       }
@@ -127,21 +131,22 @@ function ChangePassword() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      let input = {};
-      input["oldPassword"] = "";
-      input["newPassword"] = "";
-      input["confirmPassword"] = "";
-      setInput({
-        input: input,
-      });
+      // let input = {};
+      // input["oldPassword"] = "";
+      // input["newPassword"] = "";
+      // input["confirmPassword"] = "";
+      // setInput({
+      //   input: input,
+      // });
+      // console.log('old', input.oldPassword)
 
-      const { oldPassword, newPassword, confirmPassword } = input;
+      // const { oldPassword, newPassword, confirmPassword } = input;
       // console.log(this.state.input);
 
       const body = {
-        oldPassword: oldPassword,
-        newPassword: newPassword,
-        confirmPassword: confirmPassword,
+        oldPassword: e.target.oldPassword.value,
+        newPassword:  e.target.newPassword.value,
+        confirmPassword:  e.target.confirmPassword.value,
       };
 
       // console.log(data);
@@ -162,7 +167,7 @@ function ChangePassword() {
         });
     }
   };
-
+// console.log('input', input)
   return (
     <div>
       <div
@@ -192,7 +197,7 @@ function ChangePassword() {
                         name="oldPassword"
                         id="password"
                         placeholder="Current password"
-                        value={input.oldPassword || ""}
+                        value={input.oldPassword}
                         onChange={changeHandler}
                         className="mb-2"
                       />
@@ -214,7 +219,7 @@ function ChangePassword() {
                         name="newPassword"
                         id="password"
                         placeholder="New password"
-                        value={input.newPassword || ""}
+                        value={input.newPassword}
                         onChange={changeHandler}
                         className="mb-4"
                       />
@@ -237,7 +242,7 @@ function ChangePassword() {
                         id="password"
                         placeholder="Repeat new password"
                         className="mb-0"
-                        value={input.confirmPassword || ""}
+                        value={input.confirmPassword}
                         onChange={changeHandler}
                       />
                       <span onClick={handleToggle3}>

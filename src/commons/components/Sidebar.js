@@ -47,20 +47,18 @@ function Sidebar() {
 
   return (
     <>
-      <div
-        className={`card border-0 shadow py-4 pt-0 ${styles.sidebar}`}
-      >
+      <div className={`card border-0 shadow py-4 pt-0 ${styles.sidebar}`}>
         <div className="card-body p-0">
           <div
-            className={`h-100 d-flex align-items-start flex-column d-sm-block ${styles["card-text"]}`}
+            className={`d-flex align-items-start flex-column d-sm-block ${styles["card-text"]}`}
           >
             <div className="side">
               <Link href={`/dashboard`} passHref>
                 <a className="text-decoration-none">
                   <div
                     className={
-                      router.pathname == "/dashboard" && !show || 
-                      router.pathname == "/dashboard/history" && !show
+                      (router.pathname == "/dashboard" && !show) ||
+                      (router.pathname == "/dashboard/history" && !show)
                         ? `container mt-5 ${styles.active}`
                         : "container mt-5 text-muted"
                     }
@@ -105,12 +103,14 @@ function Sidebar() {
                 <a className="text-decoration-none">
                   <div
                     className={
-                      router.pathname == "/profile" && !show ||
-                      router.pathname == "/profile/personal-information" && !show ||
-                      router.pathname ==
-                        "/profile/personal-information/manage-number" && !show ||
-                      router.pathname == "/profile/change-pin" && !show ||
-                      router.pathname == "/profile/change-password" && !show
+                      (router.pathname == "/profile" && !show) ||
+                      (router.pathname == "/profile/personal-information" &&
+                        !show) ||
+                      (router.pathname ==
+                        "/profile/personal-information/manage-number" &&
+                        !show) ||
+                      (router.pathname == "/profile/change-pin" && !show) ||
+                      (router.pathname == "/profile/change-password" && !show)
                         ? `container mt-5 ${styles.active}`
                         : "container mt-5 text-muted"
                     }
@@ -122,14 +122,12 @@ function Sidebar() {
                   </div>
                 </a>
               </Link>
-            </div>
-            <div className="container text-muted mb-5" onClick={onLogout}>
-              <h5
-                className={`d-sm-block d-flex align-items-end mx-3 ${styles.logout}`}
-              >
-                <span className="bi bi-box-arrow-right pe-2"></span>
-                Logout
-              </h5>
+              <div className="container text-muted" onClick={onLogout}>
+                <h5 className={`ms-3 ${styles.logout}`}>
+                  <span className="bi bi-box-arrow-right pe-2"></span>
+                  Logout
+                </h5>
+              </div>
             </div>
           </div>
         </div>

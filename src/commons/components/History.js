@@ -1,28 +1,37 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import Image from "next/image";
+
 import styles from "src/commons/styles/History.module.css";
 import { transactionHistory } from "src/modules/utils/transaction";
-import Image from "next/image";
 import avatar from "public/avatar.jpg";
 
 function History() {
-  const [history, setHistory] = useState(null);
+  const router = useRouter();
   const token = useSelector((state) => state.auth.authUser.token);
+  const [history, setHistory] = useState(null);
+  // const [filter, setFilter] = useState("")
+  // const [page, setPage] = useState(null);
 
   const showTransaction = (data) => {
     const card = [];
     const limit = data.length < 5 ? data.length : 5;
     for (let i = 0; i < data.length; i++) {
-      const element = <HistoryCard data={data[i]} key={i} />;
-      card.push(element);
+      if (data[i].status !== "pending") {
+        const element = <HistoryCard data={data[i]} key={i} />;
+        card.push(element);
+      }
     }
     return card;
   };
 
   useEffect(() => {
+    let page = router.query.page || 1;
+    let filter = router.query.filter || "WEEK";
+    
     if (history === null) {
-      const filter = "?page=1&limit=5&filter=YEAR";
-      transactionHistory(filter, token)
+      transactionHistory(page, 5, filter, token)
         .then((res) => {
           setHistory({
             dataTransaction: res.data.data,
@@ -32,8 +41,8 @@ function History() {
           console.log(err);
         });
     }
-  }, [history, token]);
-  //   console.log(history);
+  }, [history, token, router.query.page, router.query.filter]);
+  // console.log('history', history.dataTransaction);
 
   return (
     <div className={`card shadow border-0 ps-3 ${styles.card}`}>
@@ -45,30 +54,33 @@ function History() {
               name="filter"
               id="filter"
               className={`${styles["select-filter"]}`}
+              onChange={(e) => 
+              router.push(`?filter=${e.target.value}`)
+            }
             >
               <option value="" disable="true" hidden className="filter">
                 -- Select Filter --
               </option>
-              <option value="week" className="week">
+              <option value="WEEK" className="week">
                 Week
               </option>
-              <option value="month" className="month">
+              <option value="MONTH" className="month">
                 Month
               </option>
-              <option value="year" className="year">
+              <option value="YEAR" className="year">
                 Years
               </option>
             </select>
           </div>
         </div>
-        <div className="py-5">
+        <div className="pt-5">
           {history !== null && history.dataTransaction.length > 0 ? (
             showTransaction(history.dataTransaction)
           ) : (
             <>
-              <div className={`text-center py-5 my-5 d-flex ${styles.empty}`}>
-                <div className="align-self-center w-100">
-                  <h4 className="font-weight-bold my-3">It&apos;s Clear!</h4>
+              <div className={`text-center d-flex ${styles.empty}`}>
+                <div className="mt-5 w-100">
+                  <h4 className="fw-bold">It&apos;s Clear!</h4>
                   <p className="text-muted">
                     You&apos;ve never done a transaction so far
                   </p>
@@ -95,37 +107,37 @@ function HistoryCard(props) {
     <>
       <div className={`d-flex ps-4 pb-0 mb-2`}>
         {/* <div className="col-md-2"> */}
-          <div className={`${styles["img-wrapper"]}`}>
-            <Image
-              src={image !== null ? image : avatar}
-              alt="user"
-              layout="responsive"
-              width={30}
-              height={30}
-              className={`${styles["img-user"]}`}
-            />
-          </div>
+        <div className={`${styles["img-wrapper"]}`}>
+          <Image
+            src={image !== null ? image : avatar}
+            alt="user"
+            layout="responsive"
+            width={30}
+            height={30}
+            className={`${styles["img-user"]}`}
+          />
+        </div>
         {/* </div> */}
         {/* <div className="col-md-6 ms-2"> */}
-          <div className="ps-5">
-            <p className={`fw-bold ${styles.font}`}>{fullName}</p>
-            <p className="text-muted">{type}</p>
-          </div>
+        <div className="ps-5">
+          <p className={`fw-bold ${styles.font}`}>{fullName}</p>
+          <p className="text-muted">{type}</p>
+        </div>
         {/* </div> */}
         {/* <div className="col-md-4"> */}
-          <p
-            className={`mt-3 fw-bold ms-auto pe-4 ${styles.font} ${
-              type === "accept" || type === "topup"
-                ? "text-success"
-                : "text-danger"
-            }`}
-          >
-            {`${
-              type === "accept" || type == "topup"
-                ? `+${formatAmount}`
-                : `-${formatAmount}`
-            }`}
-          </p>
+        <p
+          className={`mt-3 fw-bold ms-auto pe-4 ${styles.font} ${
+            type === "accept" || type === "topup"
+              ? "text-success"
+              : "text-danger"
+          }`}
+        >
+          {`${
+            type === "accept" || type == "topup"
+              ? `+${formatAmount}`
+              : `-${formatAmount}`
+          }`}
+        </p>
         {/* </div> */}
       </div>
     </>

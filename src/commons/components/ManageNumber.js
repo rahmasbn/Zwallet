@@ -17,12 +17,12 @@ function ManageNumber() {
     e.preventDefault();
 
     const body = {
-      noTelp: null,
+      noTelp: "",
     };
-
+    console.log('body', body)
     editPhoneNumber(body, token, id)
       .then((res) => {
-        console.log(res.data);
+        console.log('editnumber', res.data);
         const noTelp = res.data.data.noTelp
         // if(noTelp === null) {
           dispatch(updatePhoneNumber(noTelp));

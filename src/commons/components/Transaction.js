@@ -1,13 +1,10 @@
-// import Image from "next/image";
 import Link from "next/link";
-import styles from "src/commons/styles/Dashboard.module.css";
-// import samuel from "public/samuel.png";
-// import christine from "public/christine.png";
-// import netflix from "public/netflix.svg";
-// import topup from "public/topup.svg";
+import Image from "next/image";
 import { useState, useEffect } from "react";
-import TransactionCard from "src/commons/components/TransactionCard";
 import { useSelector } from "react-redux";
+
+import avatar from "public/avatar.jpg";
+import styles from "src/commons/styles/Dashboard.module.css";
 import { transactionHistory } from "src/modules/utils/transaction";
 
 function Transaction() {
@@ -18,16 +15,17 @@ function Transaction() {
     const card = [];
     const limit = data.length < 5 ? data.length : 4;
     for (let i = 0; i < data.length; i++) {
-      const element = <TransactionCard data={data[i]} key={i} />;
-      card.push(element);
+      if (data[i].status !== "pending") {
+        const element = <TransactionCard data={data[i]} key={i} />;
+        card.push(element);
+      }
     }
     return card;
   };
 
   useEffect(() => {
     if (history === null) {
-      const filter = "?page=1&limit=4&filter=YEAR";
-      transactionHistory(filter, token)
+      transactionHistory(1, 4, "YEAR", token)
         .then((res) => {
           setHistory({
             dataTransaction: res.data.data,
@@ -52,106 +50,6 @@ function Transaction() {
           </div>
           {/* item */}
           <div className="py-2">
-            {/* <div className="d-flex ps-4 justify-content-between pb-0 mb-2">
-              <div className="col-md-2">
-                <div className={`${styles["img-wrapper"]}`}>
-                  <Image
-                    src={samuel}
-                    alt="user"
-                    layout="responsive"
-                    width={30}
-                    height={30}
-                    className={`${styles["img-user"]}`}
-                  />
-                </div>
-              </div>
-              <div className="col-md-6 ms-2">
-                <div className="align-self-center">
-                  <p className={`fw-bold ${styles.font}`}>Samuel Suhi</p>
-                  <p className="text-muted">Accept</p>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <p className={`mt-3 text-success fw-bold ${styles.font}`}>
-                  +Rp50.000
-                </p>
-              </div>
-            </div>
-            <div className="d-flex ps-4 justify-content-between pb-0 mb-2">
-              <div className="col-md-2">
-                <div className={`${styles["img-wrapper"]}`}>
-                  <Image
-                    src={netflix}
-                    alt="user"
-                    layout="responsive"
-                    width={30}
-                    height={30}
-                    className={`${styles["img-user"]}`}
-                  />
-                </div>
-              </div>
-              <div className="col-md-6 ms-2">
-                <div className="align-self-center">
-                  <p className={`fw-bold ${styles.font}`}>Netflix</p>
-                  <p className="text-muted">Transfer</p>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <p className={`mt-3 text-danger fw-bold ${styles.font}`}>
-                  -Rp149.000
-                </p>
-              </div>
-            </div>
-            <div className="d-flex ps-4 justify-content-between pb-0 mb-2">
-              <div className="col-md-2">
-                <div className={`${styles["img-wrapper"]}`}>
-                  <Image
-                    src={christine}
-                    alt="user"
-                    layout="responsive"
-                    width={30}
-                    height={30}
-                    className={`${styles["img-user"]}`}
-                  />
-                </div>
-              </div>
-              <div className="col-md-6 ms-2">
-                <div className="align-self-center">
-                  <p className={`fw-bold ${styles.font}`}>Christine Mar..</p>
-                  <p className="text-muted">Accept</p>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <p className={`mt-3 text-success fw-bold ${styles.font}`}>
-                  +Rp150.000
-                </p>
-              </div>
-            </div>
-            <div className="d-flex ps-4 justify-content-between pb-0 mb-2">
-              <div className="col-md-2">
-                <div className={`${styles["img-wrapper"]}`}>
-                  <Image
-                    src={topup}
-                    alt="user"
-                    layout="responsive"
-                    width={30}
-                    height={30}
-                    className={`${styles["img-user"]}`}
-                  />
-                </div>
-              </div>
-              <div className="col-md-6 ms-2">
-                <div className="align-self-center">
-                  <p className={`fw-bold ${styles.font}`}>Robert Chandler</p>
-                  <p className="text-muted">Topup</p>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <p className={`mt-3 text-danger fw-bold ${styles.font}`}>
-                  +Rp249.000
-                </p>
-              </div>
-            </div> */}
             {history !== null && history.dataTransaction.length > 0 ? (
               showTransaction(history.dataTransaction)
             ) : (
@@ -167,6 +65,56 @@ function Transaction() {
               </>
             )}
           </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function TransactionCard(props) {
+  const { fullName, amount, image, type } = props.data;
+  const formatAmount = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  })
+    .format(amount)
+    .replace(/(\.|,)00$/g, "");
+
+  return (
+    <>
+      <div className={`d-flex ps-4 justify-content-between pb-0 mb-2`}>
+        <div className="col-md-2">
+          <div className={`${styles["img-wrapper"]}`}>
+            <Image
+              src={image !== null ? image : avatar}
+              alt="user"
+              layout="responsive"
+              width={30}
+              height={30}
+              className={`${styles["img-user"]}`}
+            />
+          </div>
+        </div>
+        <div className="col-md-6 ms-2">
+          <div className="align-self-center">
+            <p className={`fw-bold ${styles.font}`}>{fullName}</p>
+            <p className="text-muted">{type}</p>
+          </div>
+        </div>
+        <div className="col-md-4">
+          <p
+            className={`mt-3 fw-bold ${styles.font} ${
+              type === "accept" || type === "topup"
+                ? "text-success"
+                : "text-danger"
+            }`}
+          >
+            {`${
+              type === "accept" || type == "topup"
+                ? `+${formatAmount}`
+                : `-${formatAmount}`
+            }`}
+          </p>
         </div>
       </div>
     </>

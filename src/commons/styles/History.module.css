@@ -1,7 +1,7 @@
 .card {
     font-family: "Nunito Sans";
     border-radius: 20px;
-    min-height: 100vh;
+    height: 100vh;
 }
 .select-filter {
     border: 0;
@@ -22,5 +22,5 @@
     font-size: 14px;
 }
 .empty {
-    min-height: 100vh;
+    height: 100vh;
 }

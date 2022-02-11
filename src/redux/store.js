@@ -14,8 +14,5 @@ const persistConfig = {
 const pReducer = persistReducer(persistConfig, rootReducer);
 
 const enhancers = applyMiddleware(rpm, logger);
-const store = createStore(pReducer, enhancers);
-
-const persistor = persistStore(store);
-
-export { persistor, store };
+export const store = createStore(pReducer, enhancers);
+export const persistor = persistStore(store);

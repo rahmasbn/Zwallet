@@ -6,7 +6,7 @@ import Receiver from "src/commons/components/Receiver";
 // import MyProfile from "src/commons/components/MyProfile";
 import Sidebar from "src/commons/components/Sidebar";
 
-function Profile() {
+function Transfer() {
   return (
     <>
       <Layout title={`Transfer | Zwallet`} />
@@ -27,4 +27,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Transfer;

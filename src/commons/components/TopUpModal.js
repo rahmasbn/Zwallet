@@ -5,30 +5,35 @@ import styles from "src/commons/styles/Dashboard.module.css";
 import { topUp } from "src/modules/utils/transaction";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import Link from "next/link";
 
 function TopUpModal({ show, handleClose }) {
   const token = useSelector((state) => state.auth.authUser.token);
+  const [redirectUrl, setRedirectUrl] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const router = useRouter();
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const body = {
-      amount: e.target.amount.value,
-    };
+      const body = {
+        amount: e.target.amount.value,
+      };
     topUp(body, token)
       .then((res) => {
         console.log(res.data);
-        toast.success(res.data.msg, {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
-        });
+        setRedirectUrl(res.data.data.redirectUrl);
+        setIsSuccess(true);
       })
       .catch((err) => {
         console.log(err);
-        toast.error(error.response.data.msg, {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 3000,
-        });
+        setIsError(true);
+        // toast.error(error.response.data.msg, {
+        //   position: toast.POSITION.TOP_RIGHT,
+        //   autoClose: 3000,
+        // });
       });
   };
 
@@ -49,14 +54,24 @@ function TopUpModal({ show, handleClose }) {
           <form onSubmit={submitHandler}>
             <input
               className="form-control py-2 mb-3"
-              type="text"
+              type="number"
               name="amount"
-              //   value={this.state.input.currentPass || ""}
-              //   onChange={this.changeHandler}
+              autoFocus
             />
-            {/* <div className="text-danger mb-2">
-                      {this.state.errorMsg.currentPass}
-                    </div> */}
+            <Link href={redirectUrl} passHref>
+              <a target="_blank" className="text-decoration-none">
+                <p
+                  hidden={!isSuccess}
+                  className="text-success text-center"
+                  onClick={handleClose}
+                >
+                  Click here to Pay Top Up
+                </p>
+              </a>
+            </Link>
+            <p className="text-danger text-center" hidden={!isError}>
+              Top up failed, Try Again
+            </p>
             <div
               className={`col-md-12 text-center mt-5 mb-2 d-flex justify-conten-end `}
             >

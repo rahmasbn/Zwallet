@@ -4,8 +4,8 @@ import Layout from "src/commons/components/Layout";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-// import { changePin } from "src/modules/utils/user";
-// import { toast } from "react-toastify";
+import { changePin } from "src/modules/utils/user";
+import { toast } from "react-toastify";
 
 function CreatePIN() {
   const ReactCodeInput = dynamic(import("react-code-input"));
@@ -27,21 +27,25 @@ function CreatePIN() {
     },
   };
 
-  const [pin, setPin] = useState("");
-  const [isSuccess, setIsSuccess] = useState(false)
+  const [pinCode, setPinCode] = useState("")
+  const [isSuccess, setIsSuccess] = useState(false);
   const token = useSelector((state) => state.auth.authUser.token);
   const id = useSelector((state) => state.auth.authUser.id);
 
-  const handleChange = (pin) => {
-    setPin(pin)
-  };
+  // const handleChange = (e, pinCode) => {
+  //   // const pinCode = e.target.value;
+  //   setPinCode(e.target.pinCode)
+  // //   // pi
+
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // const body = {
-    //   pin: e.target.pin.value,
-    // };
+    console.log("pincode", pinCode);
+    const body = {
+      pin: pinCode
+    };
+    console.log("body", body);
 
     // changePin(body, token, id)
     // .then(res=> {
@@ -67,37 +71,42 @@ function CreatePIN() {
             <div className="row h-100">
               {!isSuccess ? (
                 <>
-              <div className={`col-lg-10 mb-2 ${styles.wrapper}`}>
-                <p className={`${styles.desc}`}>
-                  Secure Your Account, Your Wallet, and Your Data With 6 Digits
-                  PIN That You Created Yourself.
-                </p>
-                <p className={`mt-4 ${styles.text}`}>
-                  {`Create 6 digits pin to secure all your money and your data in Zwallet app. 
+                  <div className={`col-lg-10 mb-2 ${styles.wrapper}`}>
+                    <p className={`${styles.desc}`}>
+                      Secure Your Account, Your Wallet, and Your Data With 6
+                      Digits PIN That You Created Yourself.
+                    </p>
+                    <p className={`mt-4 ${styles.text}`}>
+                      {`Create 6 digits pin to secure all your money and your data in Zwallet app. 
                   Keep it secret and don't tell anyone about your Zwallet account password and the PIN.`}
-                </p>
-                <form className={`mt-5`} onSubmit={handleSubmit}>
-                  {/* <div className="form-group"> */}
-                  <div className={`form-input mb-2`}>
-                    <ReactCodeInput
-                      type="text"
-                      fields={6}
-                      onChange={handleChange}
-                      value={pin}
-                      id="pin"
-                      // name="pin"
-                      {...props}
-                    />
+                    </p>
+                    <form className={`mt-5`} onSubmit={handleSubmit}>
+                      {/* <div className="form-group"> */}
+                      <div className={`form-input mb-2`}>
+                        <ReactCodeInput
+                          type="password"
+                          fields={6}
+                          onChange={(e) => e.target.value}
+                          name="pin"
+                          value={pinCode}
+                          id="pinCode"
+                          {...props}
+                        />
+                      </div>
+                      <div className="col-12">
+                        <button
+                          className={`btn mt-5 mb-4 ${styles.button}`}
+                          type="submit"
+                        >
+                          Confirm
+                        </button>
+                      </div>
+                    </form>
                   </div>
-                  <div className="col-12">
-                    <button disabled={!pin} className={`btn mt-5 mb-4 ${styles.button}`} type="submit">
-                      Confirm
-                    </button>
-                  </div>
-                </form>
-              </div>
                 </>
-              ) : 'lol'}
+              ) : (
+                <p>Lol</p>
+              )}
             </div>
           </section>
         </div>

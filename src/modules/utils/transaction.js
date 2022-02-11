@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const transactionHistory = (filter, token) => {
-  const url = process.env.NEXT_PUBLIC_HOST + "/transaction/history" + filter;
+export const transactionHistory = (page, limit, filter, token) => {
+  const url = `${process.env.NEXT_PUBLIC_HOST}/transaction/history?page=${page}&limit=${limit}&filter=${filter}`;
   return axios.get(url, {
     headers: {
       Authorization: `Bearer ${token}`,
