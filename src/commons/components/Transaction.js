@@ -87,12 +87,11 @@ function TransactionCard(props) {
           <div className="col-md-2">
             <div className={`${styles["img-wrapper"]}`}>
               <Image
-                // src={
-                //   image !== null
-                //     ? `${process.env.NEXT_PUBLIC_HOST}/uploads/${image}`
-                //     : avatar
-                // }
-                src={avatar}
+                src={
+                  image !== null
+                    ? `${process.env.NEXT_PUBLIC_HOST}/uploads/${image}`
+                    : avatar
+                }
                 placeholder="blur"
                 blurDataURL={avatar}
                 onError={() => {
