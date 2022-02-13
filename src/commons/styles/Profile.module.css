@@ -2,14 +2,13 @@
 .profile {
   width: 70px;
   height: 70px;
-  object-fit: cover;
-  object-position: center;
 }
 .editImg {
   cursor: pointer;
 }
 .pic {
   border-radius: 10px;
+  object-fit: cover;
 }
 .card {
   font-family: "Nunito Sans";

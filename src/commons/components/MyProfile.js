@@ -145,6 +145,7 @@ function MyProfile() {
                   alt="photo profile"
                   width={70}
                   height={70}
+                  layout="responsive"
                   className={`${styles.pic} ${styles.editImg}`}
                   onClick={() => target.current.click()}
                 />

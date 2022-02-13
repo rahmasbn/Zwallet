@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "src/commons/styles/Header.module.css";
-import robert from "public/robert.png";
+// import robert from "public/robert.png";
 import avatar from "public/avatar.jpg";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -56,6 +56,7 @@ function Header() {
                       avatar;
                     }}
                     alt="photo profile"
+                    layout="responsive"
                     className={`${styles.pic}`}
                   />
                 </summary>
