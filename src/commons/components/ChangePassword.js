@@ -5,10 +5,12 @@ import { faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { editPassword } from "src/modules/utils/user";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 function ChangePassword() {
   const token = useSelector((state) => state.auth.authUser.token);
   const id = useSelector((state) => state.auth.authUser.id);
+  const router = useRouter();
 
   const [visible, setVisible] = useState({
     type1: "password",
@@ -104,7 +106,7 @@ function ChangePassword() {
       if (!validPass.test(input.newPassword)) {
         isValid = false;
         errors["newPassword"] =
-          "Password must be at least 6 characters, including uppercase letter and numbers";
+          "Password must be at least 6 characters, including lowercase, uppercase letter and numbers";
       }
     }
 
@@ -131,17 +133,6 @@ function ChangePassword() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      // let input = {};
-      // input["oldPassword"] = "";
-      // input["newPassword"] = "";
-      // input["confirmPassword"] = "";
-      // setInput({
-      //   input: input,
-      // });
-      // console.log('old', input.oldPassword)
-
-      // const { oldPassword, newPassword, confirmPassword } = input;
-      // console.log(this.state.input);
 
       const body = {
         oldPassword: e.target.oldPassword.value,
@@ -153,17 +144,19 @@ function ChangePassword() {
 
       editPassword(body, token, id)
         .then((res) => {
-          toast.success(res.data.data.msg, {
+          console.log(res.data)
+          toast.success(res.data.msg, {
             position: toast.POSITION.TOP_RIGHT,
-            autoClose: false,
+            autoClose: 3000,
           });
+          router.push("/profile")
           // console.log("update success")
         })
         .catch((err) => {
           let errors = {};
           errors["oldPassword"] = "Password is invalid";
           setErrors(errors);
-          // console.error(err);
+          console.log(err);
         });
     }
   };
@@ -254,7 +247,7 @@ function ChangePassword() {
                     </div>
                   </div>
                   <div className="col-12">
-                    <button className={`btn mt-5 mb-4 ${styles.button}`} type="submit">
+                    <button disabled={!input.oldPassword} className={`btn mt-5 mb-4 ${styles.button}`} type="submit">
                       Change Password
                     </button>
                   </div>

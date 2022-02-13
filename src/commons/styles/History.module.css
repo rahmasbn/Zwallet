@@ -1,26 +1,93 @@
 .card {
-    font-family: "Nunito Sans";
-    border-radius: 20px;
-    height: 100vh;
+  font-family: "Nunito Sans";
+  border-radius: 20px;
+  height: 100vh;
 }
 .select-filter {
-    border: 0;
-    border-radius: 10px;
-    background-color: #e5e5e5;
-    padding: 12px 10px;
+  border: 0;
+  border-radius: 10px;
+  background-color: #e5e5e5;
+  padding: 12px 10px;
 }
 .img-user {
-    border-radius: 6px;
-    object-fit: cover;
+  border-radius: 6px;
+  object-fit: cover;
 }
 .img-wrapper {
-    height: 60px;
-    width: 60px;
-    margin-left: -20px;
+  height: 60px;
+  width: 60px;
+  margin-left: -20px;
 }
 .font {
-    font-size: 14px;
+  font-size: 14px;
 }
 .empty {
-    height: 100vh;
+  height: 100vh;
 }
+.btn-disable {
+  background-color: #f0eaea;
+  color: #6379f4;
+  font-size: 1.1rem;
+}
+.btn-active {
+  background-color: #6379f4;
+  color: white;
+  font-size: 1.1rem;
+}
+.btn-pagination {
+  position: absolute;
+  bottom: 30px;
+  left: 40%;
+}
+.page {
+  position: relative;
+  top: 10px;
+  font-size: 1.2rem;
+  color: #6379f4;
+}
+
+/* detail */
+.card-body {
+  padding: 10px 10px 8px 17px;
+}
+.wrapper-img {
+  width: 45px;
+  height: 45px;
+}
+.status-img {
+    width: 40px;
+    height: 40px;
+}
+.overflow {
+    overflow-y: scroll;
+  }
+  .icon {
+    position: absolute;
+    color: #6379f4;
+}
+.btn-back {
+    background-color: #6379f4;
+    color: white;
+    border-radius: 10px;
+}
+.btn-download {
+    background-color: #e5e5e5;
+    color: #6379f4;
+    border-radius: 10px;
+}
+.detail {
+    font-size: 19px;
+  }
+
+
+  @media (max-width: 768px) {
+    .btn-pagination {
+      left: 30%;
+    }
+  }
+
+  @media (max-width: 425px) {
+    .btn-pagination {
+      left: 25%;
+    }
+  }

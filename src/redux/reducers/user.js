@@ -16,7 +16,7 @@ const initialState = {
   err: {},
 };
 const userReducer = (prevState = initialState, action) => {
-  const { userPhoto, userNumber, profileUser, pending, fulfilled, rejected } =
+  const { userPhoto, userBalance ,userNumber, profileUser, pending, fulfilled, rejected } =
     ACTION_STRING;
   switch (action.type) {
     case profileUser + pending:
@@ -74,6 +74,17 @@ const userReducer = (prevState = initialState, action) => {
           noTelp: newData,
         },
       };
+
+      case userBalance:
+        const newBalance = action.payload;
+        console
+        return {
+          ...prevState,
+          userData: {
+            ...prevState.userData,
+            balance: newBalance,
+          },
+        };
 
     default:
       return prevState;

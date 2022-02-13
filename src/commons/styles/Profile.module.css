@@ -5,6 +5,9 @@
   object-fit: cover;
   object-position: center;
 }
+.editImg {
+  cursor: pointer;
+}
 .pic {
   border-radius: 10px;
 }
@@ -25,6 +28,11 @@
   background-color: #e5e5e5;
   font-weight: 600;
   color: #3a3d42;
+}
+.btn-edit {
+  background-color: #6379f4;
+  color: white;
+  padding: 5px 15px;
 }
 
 /* PersonalInfo */

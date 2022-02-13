@@ -35,7 +35,7 @@
 .card {
     font-family: "Nunito Sans";
     border-radius: 20px;
-    min-height: 74vh;
+    height: 77vh;
 }
 .title {
     font-size: calc(1rem + 0.2vw);
@@ -55,5 +55,12 @@
 .empty {
     min-height: 40vh;
 }
+
+/* graph */
+/* .bar-chart {
+    width: 400px;
+    height: 300px;
+    margin: 5px 30px 5px 10px;
+} */
 
 

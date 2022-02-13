@@ -27,7 +27,7 @@ function Balance() {
               <div>
                 <p className={`mb-2 ${styles.balance}`}>Balance</p>
                 <h2 className="fw-bold">{formatNumber}</h2>
-                <p className={`mb-1 mt-2 ${styles.phone}`}>{userData.noTelp}</p>
+                <p className={`mb-1 mt-2 ${styles.phone}`}>{userData.noTelp !== null ? userData.noTelp : "-"}</p>
               </div>
               <div className="d-flex col-lg-2">
                 <div className="align-self-center">

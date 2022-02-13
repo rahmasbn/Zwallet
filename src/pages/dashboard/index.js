@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Balance from "src/commons/components/Balance";
 import Footer from "src/commons/components/Footer";
 import Graph from "src/commons/components/Graph";
@@ -5,8 +8,16 @@ import Header from "src/commons/components/Header";
 import Layout from "src/commons/components/Layout";
 import Sidebar from "src/commons/components/Sidebar";
 import Transaction from "src/commons/components/Transaction";
+import { getChartAction } from "src/redux/actions/chart";
 
 function Dashboard() {
+  // const dispatch = useDispatch();
+  // const user = useSelector((state) => state.auth.authUser);
+
+  // useEffect(() => {
+  //   dispatch(getChartAction(user.id, user.token));
+  // }, [dispatch, user]);
+
   return (
     <>
       <Layout title={`Dashboard | Zwallet`} />

@@ -53,12 +53,19 @@ function Sidebar() {
             className={`d-flex align-items-start flex-column d-sm-block ${styles["card-text"]}`}
           >
             <div className="side">
-              <Link href={`/dashboard`} passHref>
+              <Link
+                href={{
+                  pathname: "/dashboard",
+                  // query: { id: router.query.id },
+                }}
+                passHref
+              >
                 <a className="text-decoration-none">
                   <div
                     className={
                       (router.pathname == "/dashboard" && !show) ||
-                      (router.pathname == "/dashboard/history" && !show)
+                      (router.pathname == "/dashboard/history" && !show) ||
+                      (router.pathname == "/dashboard/history/[id]" && !show)
                         ? `container mt-5 ${styles.active}`
                         : "container mt-5 text-muted"
                     }
@@ -70,11 +77,19 @@ function Sidebar() {
                   </div>
                 </a>
               </Link>
-              <Link href={`/transfer`} passHref>
+              <Link
+                href={{
+                  pathname: "/transfer",
+                  // query: { id: router.query.id },
+                }}
+                passHref
+              >
                 <a className="text-decoration-none">
                   <div
                     className={
-                      router.pathname == "/transfer" && !show
+                      (router.pathname == "/transfer" && !show) ||
+                      (router.pathname == "/transfer/[id]" && !show) ||
+                      (router.pathname == "/transfer/confirmation" && !show)
                         ? `container mt-5 ${styles.active}`
                         : "container mt-5 text-muted"
                     }

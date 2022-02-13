@@ -11,7 +11,8 @@
     min-height: 100vh;
 }
 .logout {
-    margin-top: 100%;
+    position: absolute;
+    bottom: 7%;
     cursor: pointer;
 }
 .active, .bi {

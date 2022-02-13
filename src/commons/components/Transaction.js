@@ -14,8 +14,8 @@ function Transaction() {
   const showTransaction = (data) => {
     const card = [];
     const limit = data.length < 5 ? data.length : 4;
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].status !== "pending") {
+    for (let i = 0; i < limit; i++) {
+      if (data[i].status === "success") {
         const element = <TransactionCard data={data[i]} key={i} />;
         card.push(element);
       }
@@ -36,7 +36,7 @@ function Transaction() {
         });
     }
   }, [history, token]);
-  console.log(history);
+  // console.log('transaction',history);
 
   return (
     <>
@@ -50,9 +50,9 @@ function Transaction() {
           </div>
           {/* item */}
           <div className="py-2">
-            {history !== null && history.dataTransaction.length > 0 ? (
-              showTransaction(history.dataTransaction)
-            ) : (
+          {history !== null && history.dataTransaction.length > 0 ? (
+            showTransaction(history.dataTransaction)
+          ) : (
               <>
                 <div className={`text-center py-5 my-5 d-flex ${styles.empty}`}>
                   <div className="align-self-center w-100">
@@ -72,7 +72,7 @@ function Transaction() {
 }
 
 function TransactionCard(props) {
-  const { fullName, amount, image, type } = props.data;
+  const { fullName, amount, image, type, id } = props.data;
   const formatAmount = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
@@ -82,41 +82,53 @@ function TransactionCard(props) {
 
   return (
     <>
-      <div className={`d-flex ps-4 justify-content-between pb-0 mb-2`}>
-        <div className="col-md-2">
-          <div className={`${styles["img-wrapper"]}`}>
-            <Image
-              src={image !== null ? image : avatar}
-              alt="user"
-              layout="responsive"
-              width={30}
-              height={30}
-              className={`${styles["img-user"]}`}
-            />
+      <Link href={`/dashboard/history/${id}`} passHref>
+        <summary className={`d-flex ps-4 justify-content-between pb-0 mb-2`}>
+          <div className="col-md-2">
+            <div className={`${styles["img-wrapper"]}`}>
+              <Image
+                // src={
+                //   image !== null
+                //     ? `${process.env.NEXT_PUBLIC_HOST}/uploads/${image}`
+                //     : avatar
+                // }
+                src={avatar}
+                placeholder="blur"
+                blurDataURL={avatar}
+                onError={() => {
+                  avatar;
+                }}
+                alt="user"
+                layout="responsive"
+                width={30}
+                height={30}
+                className={`${styles["img-user"]}`}
+              />
+            </div>
           </div>
-        </div>
-        <div className="col-md-6 ms-2">
-          <div className="align-self-center">
-            <p className={`fw-bold ${styles.font}`}>{fullName}</p>
-            <p className="text-muted">{type}</p>
+          <div className="col-md-6 ms-2">
+            <div className="align-self-center">
+              <p className={`fw-bold ${styles.font}`}>{fullName}</p>
+              <p className="text-muted">{type}</p>
+            </div>
           </div>
-        </div>
-        <div className="col-md-4">
-          <p
-            className={`mt-3 fw-bold ${styles.font} ${
-              type === "accept" || type === "topup"
-                ? "text-success"
-                : "text-danger"
-            }`}
-          >
-            {`${
-              type === "accept" || type == "topup"
-                ? `+${formatAmount}`
-                : `-${formatAmount}`
-            }`}
-          </p>
-        </div>
-      </div>
+          <div className="text-right ms-auto">
+            <p
+              className={`mt-3 fw-bold ${styles.font} ${
+                type === "accept" || type === "topup"
+                  ? "text-success"
+                  : "text-danger"
+              }`}
+            >
+              {`${
+                type === "accept" || type == "topup"
+                  ? `+${formatAmount}`
+                  : `-${formatAmount}`
+              }`}
+            </p>
+          </div>
+        </summary>
+      </Link>
     </>
   );
 }

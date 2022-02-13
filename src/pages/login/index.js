@@ -19,6 +19,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { loginAction } from "src/redux/actions/auth";
 import { getProfileAction } from "src/redux/actions/user";
 import Swal from "sweetalert2";
+import { getChartAction } from "src/redux/actions/chart";
 
 function Login() {
   const router = useRouter();
@@ -91,12 +92,34 @@ function Login() {
     }
     if (auth.isFulfilled === true) {
       dispatch(getProfileAction(token, id));
+      // dispatch(getChartAction(id, token));
+      // getChart(id, token)
+      // .then((res) => {
+      //   // console.log("chart", res.data.data.listExpense);
+      //   const totalIncome = res.data.data.totalIncome;
+      //   const totalExpense = res.data.data.totalExpense;
+      //   const listIncome = res.data.data.listIncome;
+      //   const listExpense = res.data.data.listExpense;
+      //   const data = {
+      //     totalIncome,
+      //     totalExpense,
+      //     listIncome,
+      //     listExpense,
+      //   }
+      //   // setChart(res.data.data);
+      //   // setListExpense(res.data.data.listExpense);
+      //   // setListIncome(res.data.data.listIncome);
+      //   dispatch(getChartAction(data))
+      // })
+      // .catch((err) => {
+      //   console.log(err);
+      // });
       if (pin !== null) {
+        router.push("/dashboard");
         toast.success("Login successful", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 3000,
         });
-        router.push("/dashboard");
       } else {
         Swal.fire({
           icon: "warning",
@@ -227,7 +250,7 @@ function Login() {
                     <div
                       className={`text-end mt-3 ${styles["forgot-password"]}`}
                     >
-                      <Link href={`/forgotpassword`}>Forgot Password?</Link>
+                      <Link href={`/forgot-password`}>Forgot Password?</Link>
                     </div>
                     <button
                       disabled={!values.email}

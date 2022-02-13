@@ -87,3 +87,71 @@
   width: 55px;
   height: 55px;
 }
+.btn-disable {
+  background-color: #f0eaea;
+  color: #6379f4;
+  font-size: 1.1rem;
+}
+.btn-active {
+  background-color: #6379f4;
+  color: white;
+  font-size: 1.1rem;
+}
+.btn-pagination {
+  position: absolute;
+  bottom: 25px;
+  left: 40%;
+}
+.page {
+  position: relative;
+  top: 10px;
+  font-size: 1.2rem;
+  color: #6379f4;
+}
+.body {
+  padding: 10px 10px 0 20px;
+}
+
+/* Confirmation */
+.card-body {
+  padding: 10px 10px 8px 17px;
+}
+.wrapper-img {
+  width: 45px;
+  height: 45px;
+}
+.detail {
+  font-size: 19px;
+}
+.topup {
+  background-color: #6379f4;
+  border-radius: 6px;
+  width: 30%;
+  padding: 8px 0;
+  margin-left: auto;
+}
+.btn-close {
+  right: 0;
+  top: 30px;
+  cursor: pointer;
+}
+
+
+@media(max-width: 768px) {
+  .btn-disable {
+    font-size: 1rem;
+  }
+  .btn-active {
+    font-size: 1rem;
+  }
+  .btn-pagination {
+    bottom: 10px;
+    left: 30%;
+  }
+}
+
+@media(max-width: 425px) {
+  .btn-pagination {
+    left: 20%;
+  }
+}

@@ -19,3 +19,13 @@ export const logout = (token) => {
     },
   });
 };
+
+export const forgotPassword = (body) => {
+  const url = process.env.NEXT_PUBLIC_HOST + "/auth/forgot-password";
+  return axios.post(url, body);
+}
+
+export const resetPassword = (body) => {
+  const url = process.env.NEXT_PUBLIC_HOST + "/auth/reset-password";
+  return axios.patch(url, body);
+}

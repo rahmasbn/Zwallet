@@ -1,27 +1,28 @@
 import Image from "next/image";
-import robert from "public/robert.png";
 import avatar from "public/avatar.jpg";
 import styles from "src/commons/styles/Profile.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-// import PersonalInfo from "./PersonalInfo";
-// import { useRouter } from "next/router";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { logout } from "src/modules/utils/auth";
 import { logoutAction } from "src/redux/actions/auth";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getProfileAction } from "src/redux/actions/user";
+import { updateImage, updateName } from "src/modules/utils/user";
+import { toast } from "react-toastify";
 
 function MyProfile() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const target = useRef();
+  const [show, setShow] = useState(false);
   const token = useSelector((state) => state.auth.authUser.token);
   const id = useSelector((state) => state.auth.authUser.id);
   const userData = useSelector((state) => state.user.userData);
-  // console.log('user', userData)
+  // console.log("user", userData.image);
 
   // const [isInfo, setIsInfo] = useState(false);
 
@@ -35,11 +36,9 @@ function MyProfile() {
   //   //     console.log(err);
   //   //   });
   // };
-  useEffect(()=> {
-
-    dispatch(getProfileAction(token,id))
-  }, [dispatch, token, id])
-
+  useEffect(() => {
+    dispatch(getProfileAction(token, id));
+  }, [dispatch, token, id]);
 
   const onLogout = () => {
     Swal.fire({
@@ -68,6 +67,60 @@ function MyProfile() {
     });
   };
 
+  const handleFile = (e) => {
+    const body = new FormData();
+    const image = e.target.files[0];
+    if (image !== null) {
+      body.append("image", image, image.name);
+    }
+
+    updateImage(id, body, token)
+      .then((res) => {
+        // console.log(res.data);
+        dispatch(getProfileAction(token, id));
+        toast.success(res.data.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+        });
+        // console.log("update", userData.image);
+        // if (image !== null && typeof image !== "undefined") {
+        //   dispatch(updateUserPhoto(image));
+        // }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+        });
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const body = {
+      firstName: e.target.firstName.value,
+      lastName: e.target.lastName.value,
+    };
+
+    updateName(id, body, token)
+      .then((res) => {
+        dispatch(getProfileAction(token, id));
+        setShow(false);
+        toast.success(res.data.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+        });
+      });
+  };
   // const { firstName, lastName, noTelp } = userData;
   return (
     <>
@@ -78,20 +131,76 @@ function MyProfile() {
             <div className="container d-flex justify-content-center mb-2">
               <div className={`mb-2 ms-3 ${styles.profile}`}>
                 <Image
-                  src={userData.image !== null ? userData.image : avatar}
+                  src={
+                    userData.image
+                      ? `${process.env.NEXT_PUBLIC_HOST}/uploads/${userData.image}`
+                      : avatar
+                  }
+                  placeholder="blur"
+                  blurDataURL={avatar}
+                  onError={() => {
+                    avatar;
+                  }}
+                  // src={userData.image !== null ? userData.image : avatar}
                   alt="photo profile"
-                  className={`${styles.pic}`}
+                  width={70}
+                  height={70}
+                  className={`${styles.pic} ${styles.editImg}`}
+                  onClick={() => target.current.click()}
                 />
               </div>
             </div>
-            <p className="text-center text-muted">
+            <input type="file" ref={target} onChange={handleFile} hidden />
+            <p
+              className={`text-center text-muted ${styles.editImg}`}
+              onClick={() => setShow(true)}
+            >
               <span className="bi bi-pencil"></span> Edit
             </p>
             <div className="container text-center">
-              <h4 className={`fw-bold ${styles.name}`}>
-                {userData.firstName} {userData.lastName}
-              </h4>
-              <p className="text-muted m-0">{userData.noTelp !== null ? userData.noTelp : "-"}</p>
+              {!show ? (
+                <h4 className={`fw-bold ${styles.name}`}>
+                  {userData.firstName ? userData.firstName : ""} {userData.lastName ? userData.lastName : ""}
+                </h4>
+              ) : (
+                <>
+                  <form onSubmit={handleSubmit}>
+                    <div className="d-flex justify-content-center">
+                      <input
+                        type="text"
+                        name="firstName"
+                        placeholder="First Name"
+                        className="text-center me-3"
+                      />
+                      <input
+                        type="text"
+                        name="lastName"
+                        placeholder="Last Name"
+                        className="text-center"
+                      />
+                    </div>
+                    <div className="d-flex mt-2 justify-content-center">
+                      <button
+                        className={`btn ${styles["btn-edit"]} me-3`}
+                        type="submit"
+                      >
+                        Submit
+                      </button>
+                      <button
+                        className={`btn ${styles["btn-edit"]}`}
+                        onClick={() => setShow(false)}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </>
+              )}
+              <p className="text-muted m-0">
+                {userData.noTelp !== null && userData.noTelp !== ""
+                  ? userData.noTelp
+                  : "--"}
+              </p>
             </div>
           </div>
 
@@ -117,7 +226,7 @@ function MyProfile() {
                 </button>
               </a>
             </Link>
-            <Link href={"/change-password"} passHref>
+            <Link href={"/profile/change-password"} passHref>
               <a
                 className={` ${styles["btn-dark"]} d-grid gap-2 col-6  mx-auto mt-3 h-50 mb-auto text-decoration-none`}
               >
@@ -134,7 +243,7 @@ function MyProfile() {
                 </button>
               </a>
             </Link>
-            <Link href={"/change-pin"} passHref>
+            <Link href={"/profile/change-pin"} passHref>
               <a
                 className={`${styles["btn-dark"]} d-grid gap-2 col-6 mx-auto mt-3 h-50 mb-auto text-decoration-none`}
               >
