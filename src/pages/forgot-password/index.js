@@ -41,7 +41,7 @@ function ForgotPass() {
     // if (validate()) {
       const body = {
         email: e.target.email.value,
-        linkDirect: "http://localhost:3000/reset-password",
+        linkDirect: "https://zwallet-xi.vercel.app/reset-password",
       };
       console.log(body);
       forgotPassword(body)

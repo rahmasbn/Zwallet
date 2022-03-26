@@ -1,32 +1,67 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+
 import styles from "src/commons/styles/Profile.module.css";
-import { profile } from "src/modules/utils/user";
+import { updateName } from "src/modules/utils/user";
+import { getProfileAction } from "src/redux/actions/user";
 
 function PersonalInfo() {
-  // const router = useRouter();
   const userData = useSelector((state) => state.user.userData);
-  // const [userData, setUserData] = useState({});
+  const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.authUser);
 
-  // const getProfile = () => {
-  //   const id = JSON.parse(localStorage["zwallet-idUser"]);
-  //   const token = JSON.parse(localStorage["zwallet-token"]);
-  //   profile(token, id)
-  //     .then((res) => {
-  //       // console.log(res.data);
-  //       setUserData(res.data.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  const editFirstName = (e) => {
+    e.preventDefault();
+    // console.log(e.target.firstName);
+    const body = {
+      firstName: e.target.firstName.value,
+    };
+    updateName(user.id, body, user.token)
+      .then((res) => {
+        dispatch(getProfileAction(user.token, user.id));
+        setShow(false);
+        toast.success(res.data.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+        });
+      });
+  };
 
-  // useEffect(() => {
-  //   getProfile();
-  // }, []);
+  const editLastName = (e) => {
+    e.preventDefault();
 
-  // const { firstName, lastName, noTelp, email } = userData;
+    const body = {
+      lastName: e.target.lastName.value,
+    };
+    updateName(user.id, body, user.token)
+      .then((res) => {
+        dispatch(getProfileAction(user.token, user.id));
+        setShow(false);
+        toast.success(res.data.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+        });
+      });
+  };
+
   return (
     <>
       <div className={`card border-0 shadow ps-3 vh-100 ${styles.card}`}>
@@ -40,18 +75,95 @@ function PersonalInfo() {
           <div className="pt-3">
             <div className={`card border-0 shadow mb-3 rounded-3`}>
               <div className={`${styles["card-body"]}`}>
-                <p className="text-muted">First Name</p>
-                <h5 className={`fw-bold m-0 ${styles.userInfo}`}>
-                  {userData.firstName}
-                </h5>
+                {!show ? (
+                  <>
+                    <div className="d-flex">
+                      <div className="col justify-content-between">
+                        <p className="text-muted">First Name</p>
+                        <h5 className={`fw-bold ${styles.userInfo}`}>
+                          {userData.firstName}
+                        </h5>
+                      </div>
+                      <div
+                        className={`align-self-center ${styles["icon-input"]}`}
+                        onClick={() => setShow(true)}
+                      >
+                        <span className="bi bi-pencil"></span> Edit
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <form onSubmit={editFirstName}>
+                      <div className="d-flex">
+                        <div className="col justify-content-between">
+                          <p className="text-muted">First Name</p>
+
+                          <input
+                            type="text"
+                            name="firstName"
+                            defaultValue={userData.firstName}
+                            className={`me-3 ${styles.inputStyle}`}
+                          />
+                        </div>
+                        <button
+                          className={`align-self-center ${styles["icon-input"]}`}
+                          type="submit"
+                        >
+                          <span className="bi bi-check2"></span> Save
+                        </button>
+                      </div>
+                    </form>
+                  </>
+                )}
               </div>
             </div>
             <div className="card border-0 shadow mb-3">
               <div className={`${styles["card-body"]}`}>
-                <p className="text-muted">Last Name</p>
+                {/* <p className="text-muted">Last Name</p>
                 <h5 className={`fw-bold m-0 ${styles.userInfo}`}>
                   {userData.lastName}
-                </h5>
+                </h5> */}
+                {!show ? (
+                  <>
+                    <div className="d-flex">
+                      <div className="col justify-content-between">
+                        <p className="text-muted">Last Name</p>
+                        <h5 className={`fw-bold m-0 ${styles.userInfo}`}>
+                          {userData.lastName}
+                        </h5>
+                      </div>
+                      <div
+                        className={`align-self-center ${styles["icon-input"]}`}
+                        onClick={() => setShow(true)}
+                      >
+                        <span className="bi bi-pencil"></span> Edit
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <form onSubmit={editLastName}>
+                      <div className="d-flex">
+                        <div className="col justify-content-between">
+                          <p className="text-muted">Last Name</p>
+                          <input
+                            type="text"
+                            name="lastName"
+                            defaultValue={userData.lastName}
+                            className={`me-3 ${styles.inputStyle}`}
+                          />
+                        </div>
+                        <button
+                          className={`align-self-center ${styles["icon-input"]}`}
+                          type="submit"
+                        >
+                          <span className="bi bi-check2"></span> Save
+                        </button>
+                      </div>
+                    </form>
+                  </>
+                )}
               </div>
             </div>
             <div className="card border-0 shadow mb-3">

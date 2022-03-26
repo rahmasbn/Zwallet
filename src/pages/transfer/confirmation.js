@@ -14,6 +14,7 @@ import { Modal } from "react-bootstrap";
 import PinInput from "react-pin-input";
 import { toast } from "react-toastify";
 import { transfer } from "src/modules/utils/transaction";
+import LoadingComponent from "src/commons/components/LoadingComponent";
 
 function Confirmation() {
   const props = {
@@ -41,6 +42,7 @@ function Confirmation() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [pinCode, setPinCode] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const formatAmount = new Intl.NumberFormat("id-ID", {
     style: "currency",
@@ -100,9 +102,11 @@ function Confirmation() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     profile(token, id)
       .then((res) => {
         setUserData({ ...res.data.data });
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -123,67 +127,74 @@ function Confirmation() {
               <div className="card-body">
                 {/* <form onSubmit={onContinue}> */}
                 <h5 className="fw-bold mb-3">Transfer To</h5>
-                <div className="card border-0 shadow mb-4">
-                  <div className={`d-flex ${styles["card-body"]}`}>
-                    <div className="align-self-center d-flex">
-                      <div className={`${styles["wrapper-img"]} me-5`}>
-                        <Image
-                          src={avatar}
-                          alt="user"
-                          layout="responsive"
-                          className={`${styles["img-user"]}`}
-                        />
+                {!isLoading ? (
+                  <>
+                    <div className="card border-0 shadow mb-4">
+                      <div className={`d-flex ${styles["card-body"]}`}>
+                        <div className="align-self-center d-flex">
+                          <div className={`${styles["wrapper-img"]} me-5`}>
+                            <Image
+                              src={avatar}
+                              alt="user"
+                              layout="responsive"
+                              className={`${styles["img-user"]}`}
+                            />
+                          </div>
+                          <div className="align-self-center">
+                            <h6 className="fw-bold">{`${userData.firstName} ${userData.lastName}`}</h6>
+                            <p className="text-muted m-0">
+                              {userData.noTelp !== null &&
+                              userData.noTelp !== ""
+                                ? userData.noTelp
+                                : "-"}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="align-self-center">
-                        <h6 className="fw-bold">{`${userData.firstName} ${userData.lastName}`}</h6>
-                        <p className="text-muted m-0">
-                          {userData.noTelp !== null && userData.noTelp !== ""
-                            ? userData.noTelp
-                            : "-"}
+                    </div>
+                    <h5 className="col-12 mb-3 fw-bold">Details</h5>
+                    <div className="card border-0 shadow mb-2">
+                      <div className={`${styles["card-body"]}`}>
+                        <p className="text-muted mb-2">Amount</p>
+                        <p className={`fw-bold m-0 ${styles.detail}`}>
+                          {formatAmount}
                         </p>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <h5 className="col-12 mb-3 fw-bold">Details</h5>
-                <div className="card border-0 shadow mb-2">
-                  <div className={`${styles["card-body"]}`}>
-                    <p className="text-muted mb-2">Amount</p>
-                    <p className={`fw-bold m-0 ${styles.detail}`}>
-                      {formatAmount}
-                    </p>
-                  </div>
-                </div>
-                <div className="card border-0 shadow mb-2">
-                  <div className={` ${styles["card-body"]}`}>
-                    <p className="text-muted mb-2">Balance Left</p>
-                    <h5 className="fw-bold m-0">{formatBalance}</h5>
-                  </div>
-                </div>
-                <div className="card border-0 shadow mb-2">
-                  <div className={`${styles["card-body"]}`}>
-                    <p className="text-muted mb-2">{`Date & Time`}</p>
-                    <h5 className="fw-bold m-0">{detailTrf.dateTime}</h5>
-                  </div>
-                </div>
-                <div className="card border-0 shadow mb-3">
-                  <div className={` ${styles["card-body"]}`}>
-                    <p className="text-muted mb-2">Notes</p>
-                    <h5 className="fw-bold m-0">
-                      {detailTrf.notes ? detailTrf.notes : ""}
-                    </h5>
-                  </div>
-                </div>
-                <div className="pt-3 d-flex justify-content-end">
-                  <button
-                    type="button"
-                    onClick={handleShow}
-                    className={`btn btn-lg ${styles["btn-amount"]}`}
-                  >
-                    <small className="p-3">Continue</small>
-                  </button>
-                </div>
-                {/* </form> */}
+                    <div className="card border-0 shadow mb-2">
+                      <div className={` ${styles["card-body"]}`}>
+                        <p className="text-muted mb-2">Balance Left</p>
+                        <h5 className="fw-bold m-0">{formatBalance}</h5>
+                      </div>
+                    </div>
+                    <div className="card border-0 shadow mb-2">
+                      <div className={`${styles["card-body"]}`}>
+                        <p className="text-muted mb-2">{`Date & Time`}</p>
+                        <h5 className="fw-bold m-0">{detailTrf.dateTime}</h5>
+                      </div>
+                    </div>
+                    <div className="card border-0 shadow mb-3">
+                      <div className={` ${styles["card-body"]}`}>
+                        <p className="text-muted mb-2">Notes</p>
+                        <h5 className="fw-bold m-0">
+                          {detailTrf.notes ? detailTrf.notes : ""}
+                        </h5>
+                      </div>
+                    </div>
+                    <div className="pt-3 d-flex justify-content-end">
+                      <button
+                        type="button"
+                        onClick={handleShow}
+                        className={`btn btn-lg ${styles["btn-amount"]}`}
+                      >
+                        <small className="p-3">Continue</small>
+                      </button>
+                    </div>
+                    {/* </form> */}
+                  </>
+                ) : (
+                  <LoadingComponent />
+                )}
               </div>
             </div>
           </div>

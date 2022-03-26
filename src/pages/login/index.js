@@ -24,10 +24,7 @@ import { getChartAction } from "src/redux/actions/chart";
 function Login() {
   const router = useRouter();
   const auth = useSelector((state) => state.auth);
-  const token = useSelector((state) => state.auth.authUser.token);
-  const id = useSelector((state) => state.auth.authUser.id);
-  const pin = useSelector((state) => state.auth.authUser.pin);
-  // console.log('token', auth.authUser.token);
+  const user = useSelector((state) => state.auth.authUser);
   const dispatch = useDispatch();
 
   const [type, setType] = useState("password");
@@ -91,7 +88,7 @@ function Login() {
       console.log("useEff error", errors);
     }
     if (auth.isFulfilled === true) {
-      dispatch(getProfileAction(token, id));
+      dispatch(getProfileAction(user.token, user.id));
       // dispatch(getChartAction(id, token));
       // getChart(id, token)
       // .then((res) => {
@@ -114,7 +111,7 @@ function Login() {
       // .catch((err) => {
       //   console.log(err);
       // });
-      if (pin !== null) {
+      if (user.pin !== null) {
         router.push("/dashboard");
         toast.success("Login successful", {
           position: toast.POSITION.TOP_RIGHT,
@@ -143,17 +140,7 @@ function Login() {
         autoClose: 3000,
       });
     }
-  }, [
-    errors,
-    isSubmit,
-    auth.isFulfilled,
-    auth.isRejected,
-    router,
-    dispatch,
-    id,
-    token,
-    pin,
-  ]);
+  }, [errors, isSubmit, auth, router, dispatch, user]);
 
   const handleToggle = () => {
     if (type === "password") {
@@ -184,7 +171,7 @@ function Login() {
                   wherever you are. Desktop, laptop, mobile phone? We cover all
                   of that for you!
                 </p>
-                <form className={`mt-5 ${styles.form}`} onSubmit={handleSubmit}>
+                <form className={`mt-5 ${styles.form}`} onSubmit={handleSubmit} noValidate>
                   <div className="form-group">
                     <div className={`${styles["input-icon1"]}`}>
                       <span

@@ -32,7 +32,7 @@ export const validateSignup = (values) => {
     errors.password = "Password required";
   } else if (!validPass.test(values.password)) {
     errors.password =
-      "Password must be at least 6 characters, including uppercase letter and numbers";
+      "Password must be at least 6 characters, including lowercase, uppercase and numbers";
   }
 
   return errors;
@@ -58,7 +58,7 @@ export const validateLogin = (values) => {
     errors.password = "Password required";
   } else if (!validPass.test(values.password)) {
     errors.password =
-      "Password must be at least 6 characters, including lowercase, uppercase letter and numbers";
+      "Password must be at least 6 characters, including lowercase, uppercase and numbers";
   }
 
   return errors;

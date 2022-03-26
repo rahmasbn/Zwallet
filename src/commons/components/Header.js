@@ -3,19 +3,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "src/commons/styles/Header.module.css";
-// import robert from "public/robert.png";
 import avatar from "public/avatar.jpg";
+import defaultImg from "public/default-img.png";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getProfileAction } from "src/redux/actions/user";
 import Link from "next/link";
 
 function Header() {
+  const dispatch = useDispatch();
+  const [isError, setIsError] = useState(false);
   const userData = useSelector((state) => state.user.userData);
   const token = useSelector((state) => state.auth.authUser.token);
   const id = useSelector((state) => state.auth.authUser.id);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProfileAction(token, id));
@@ -44,16 +45,16 @@ function Header() {
                   <Image
                     // src={userData.image !== null ? userData.image : avatar}
                     src={
-                      userData.image !== null
-                        ? `${process.env.NEXT_PUBLIC_HOST}/uploads/${userData.image}`
-                        : avatar
+                      isError === true
+                        ? avatar
+                        : `${process.env.NEXT_PUBLIC_HOST}/uploads/${userData.image}`
                     }
                     width={50}
                     height={50}
                     placeholder="blur"
-                    blurDataURL={avatar}
+                    blurDataURL={defaultImg}
                     onError={() => {
-                      avatar;
+                      setIsError(true);
                     }}
                     alt="photo profile"
                     layout="responsive"

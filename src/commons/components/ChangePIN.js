@@ -5,7 +5,7 @@ import PinInput from "react-pin-input";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { changePin } from "src/modules/utils/user";
+import { changePin, checkPin } from "src/modules/utils/user";
 import { toast } from "react-toastify";
 
 function ChangePIN() {
@@ -27,10 +27,10 @@ function ChangePIN() {
     },
   };
 
-  const [pinCode, setPinCode] = useState(0);
-  const token = useSelector((state) => state.auth.authUser.token);
-  const id = useSelector((state) => state.auth.authUser.id);
   const router = useRouter();
+  // const [isVerify, setIsVerify] = useState(false);
+  const [pinCode, setPinCode] = useState(0);
+  const user = useSelector((state) => state.auth.authUser);
 
   const handleChange = (e) => {
     setPinCode(e);
@@ -44,7 +44,7 @@ function ChangePIN() {
     };
     // console.log("body", body);
 
-    changePin(body, token, id)
+    changePin(body, user.token, user.id)
       .then((res) => {
         console.log(res.data);
         router.push("/profile");
@@ -63,44 +63,37 @@ function ChangePIN() {
   };
   return (
     <>
-      <div
-        className={`card shadow border-0 ps-3 vh-100 ${styles.card} ${styles["card-manage"]}`}
-      >
-        <div className="card-body">
-          <h4 className="fw-bold mb-3 pt-3">Change PIN</h4>
-          <p className="text-muted py-4">
-            Enter your current 6 digits Zwallet PIN below to
-            <br />
-            continue to the next steps.
-          </p>
-          <div className=" w-100 my-5">
-            <div className="row d-flex justify-content-center">
-              <div className="col-md-6">
-                <form onSubmit={handleSubmit}>
-                  <div className="form-input text-center mb-5 col-12">
-                    <PinInput
-                      length={6}
-                      secret
-                      type="numeric"
-                      inputMode="number"
-                      regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
-                      autoSelect={true}
-                      onChange={handleChange}
-                      {...props}
-                    />
-                  </div>
-                  <div className="col-12">
-                    <button
-                      disabled={!pinCode}
-                      className={`btn mt-2 mb-4 ${styles.button}`}
-                      type="submit"
-                    >
-                      Change PIN
-                    </button>
-                  </div>
-                </form>
+      <p className="text-muted py-4">
+        Type your new 6 digits security PIN to use in
+        <br />
+        Zwallet.
+      </p>
+      <div className=" w-100 my-5">
+        <div className="row d-flex justify-content-center">
+          <div className="col-md-6">
+            <form onSubmit={handleSubmit}>
+              <div className="form-input text-center mb-5 col-12">
+                <PinInput
+                  length={6}
+                  secret
+                  type="numeric"
+                  inputMode="number"
+                  regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
+                  autoSelect={true}
+                  onChange={handleChange}
+                  {...props}
+                />
               </div>
-            </div>
+              <div className="col-12">
+                <button
+                  disabled={!pinCode}
+                  className={`btn mt-2 mb-4 ${styles.button}`}
+                  type="submit"
+                >
+                  Change PIN
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

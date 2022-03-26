@@ -6,10 +6,12 @@ import { useSelector } from "react-redux";
 import avatar from "public/avatar.jpg";
 import styles from "src/commons/styles/Dashboard.module.css";
 import { transactionHistory } from "src/modules/utils/transaction";
+import LoadingComponent from "./LoadingComponent";
 
 function Transaction() {
   const [history, setHistory] = useState(null);
   const token = useSelector((state) => state.auth.authUser.token);
+  const [isLoading, setIsLoading] = useState(false);
 
   const showTransaction = (data) => {
     const card = [];
@@ -25,11 +27,13 @@ function Transaction() {
 
   useEffect(() => {
     if (history === null) {
+      setIsLoading(true);
       transactionHistory(1, 4, "YEAR", token)
         .then((res) => {
           setHistory({
             dataTransaction: res.data.data,
           });
+          setIsLoading(false);
         })
         .catch((err) => {
           console.log(err);
@@ -49,22 +53,28 @@ function Transaction() {
             </Link>
           </div>
           {/* item */}
-          <div className="py-2">
-          {history !== null && history.dataTransaction.length > 0 ? (
-            showTransaction(history.dataTransaction)
-          ) : (
-              <>
-                <div className={`text-center py-5 my-5 d-flex ${styles.empty}`}>
-                  <div className="align-self-center w-100">
-                    <h4 className="fw-bold my-3">It&apos;s Clear!</h4>
-                    <p className="text-muted">
-                      You&apos;ve never done a transaction so far
-                    </p>
+          {!isLoading ? (
+            <div className="py-2">
+              {history !== null && history.dataTransaction.length > 0 ? (
+                showTransaction(history.dataTransaction)
+              ) : (
+                <>
+                  <div
+                    className={`text-center py-5 my-5 d-flex ${styles.empty}`}
+                  >
+                    <div className="align-self-center w-100">
+                      <h4 className="fw-bold my-3">It&apos;s Clear!</h4>
+                      <p className="text-muted">
+                        You&apos;ve never done a transaction so far
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </>
-            )}
-          </div>
+                </>
+              )}
+            </div>
+          ) : (
+            <LoadingComponent />
+          )}
         </div>
       </div>
     </>
@@ -73,6 +83,7 @@ function Transaction() {
 
 function TransactionCard(props) {
   const { fullName, amount, image, type, id } = props.data;
+  const [isError, setIsError] = useState(false);
   const formatAmount = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
@@ -88,14 +99,14 @@ function TransactionCard(props) {
             <div className={`${styles["img-wrapper"]}`}>
               <Image
                 src={
-                  image !== null
-                    ? `${process.env.NEXT_PUBLIC_HOST}/uploads/${image}`
-                    : avatar
+                  isError === true
+                    ? avatar
+                    : `${process.env.NEXT_PUBLIC_HOST}/uploads/${image}`
                 }
                 placeholder="blur"
                 blurDataURL={avatar}
                 onError={() => {
-                  avatar;
+                  setIsError(true);
                 }}
                 alt="user"
                 layout="responsive"

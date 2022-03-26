@@ -6,13 +6,16 @@ import Image from "next/image";
 import styles from "src/commons/styles/History.module.css";
 import { transactionHistory } from "src/modules/utils/transaction";
 import avatar from "public/avatar.jpg";
+import defaultImg from "public/default-img.png";
 import Link from "next/link";
+import LoadingComponent from "./LoadingComponent";
 
 function History() {
   const router = useRouter();
   // console.log("router", router);
   const token = useSelector((state) => state.auth.authUser.token);
   const [history, setHistory] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   // const [filterData, setFilterData] = useState("WEEK");
   // const [page, setPage] = useState(null);
 
@@ -34,12 +37,14 @@ function History() {
     // console.log('filter', filter)
 
     if (history === null) {
+      setIsLoading(true);
       transactionHistory(page, 5, filter, token)
         .then((res) => {
           // console.log("history", res.data);
           setHistory({
             dataTransaction: res.data,
           });
+          setIsLoading(false);
         })
         .catch((err) => {
           console.log(err);
@@ -101,16 +106,14 @@ function History() {
   };
 
   return (
-    <div
-      className={`card shadow border-0 ps-3 ${styles.card}`}
-    >
-      <div className="card-body">
+    <div className={`card shadow border-0 ps-3 ${styles.card}`}>
+      <div className="card-body p-0">
         <div className="d-flex flex-wrap">
           <h5 className="fw-bold mb-3 pt-3 col-lg-9">Transaction History</h5>
           <div className="col-lg-3 mt-4">
             <select
               name="filter"
-              defaultValue="WEEK"
+              // defaultValue="WEEK"
               className={`${styles["select-filter"]}`}
               // onChange={(e) => router.push(`?filter=${e.target.value}`)}
               onChange={(e) =>
@@ -135,27 +138,31 @@ function History() {
             </select>
           </div>
         </div>
-        <div className="pt-5">
-          {history !== null && history.dataTransaction.data.length > 0 ? (
-            <>
-              <div className="history">
-                {showTransaction(history.dataTransaction.data)}
+        {!isLoading ? (
+          <div className="pt-5">
+            {history !== null && history.dataTransaction.data.length > 0 ? (
+              <>
+                <div className="history">
+                  {showTransaction(history.dataTransaction.data)}
+                </div>
+                <div className="pagination">
+                  {pagination(history.dataTransaction.pagination)}
+                </div>
+              </>
+            ) : (
+              <div className={`text-center d-flex ${styles.empty}`}>
+                <div className="mt-5 w-100">
+                  <h4 className="fw-bold">It&apos;s Clear!</h4>
+                  <p className="text-muted">
+                    You&apos;ve never done a transaction so far
+                  </p>
+                </div>
               </div>
-              <div className="pagination">
-                {pagination(history.dataTransaction.pagination)}
-              </div>
-            </>
-          ) : (
-            <div className={`text-center d-flex ${styles.empty}`}>
-              <div className="mt-5 w-100">
-                <h4 className="fw-bold">It&apos;s Clear!</h4>
-                <p className="text-muted">
-                  You&apos;ve never done a transaction so far
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        ) : (
+          <LoadingComponent />
+        )}
       </div>
     </div>
   );
@@ -184,9 +191,9 @@ function HistoryCard(props) {
                   : avatar
               }
               placeholder="blur"
-              blurDataURL={avatar}
+              blurDataURL={defaultImg}
               onError={() => {
-                avatar;
+                defaultImg;
               }}
               alt="user"
               layout="responsive"

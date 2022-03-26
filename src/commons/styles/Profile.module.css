@@ -42,7 +42,15 @@
 .userInfo {
   font-size: calc(16px + 0.2vw);
 }
-
+.inputStyle {
+  border: 0;
+  padding: 5px 10px;
+  width: 70%;
+}
+.icon-input {
+  background-color: white;
+  border: 0;
+}
 /* manage number */
 .card-manage {
   height: 89vh;

@@ -52,6 +52,12 @@
 }
 
 /* receiver */
+.select-sort {
+  border: 0;
+  border-radius: 10px;
+  background-color: #e5e5e5;
+  padding: 12px 10px;
+}
 .overflow {
   overflow-y: scroll;
 }

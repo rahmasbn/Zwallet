@@ -140,11 +140,9 @@ function ChangePassword() {
         confirmPassword:  e.target.confirmPassword.value,
       };
 
-      // console.log(data);
-
       editPassword(body, token, id)
         .then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           toast.success(res.data.msg, {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 3000,

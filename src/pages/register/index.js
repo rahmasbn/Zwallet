@@ -118,7 +118,7 @@ function Register() {
                   wherever you are. Desktop, laptop, mobile phone? We cover all
                   of that for you!
                 </p>
-                <form className={`mt-5 ${styles.form}`} onSubmit={handleSubmit}>
+                <form className={`mt-5 ${styles.form}`} onSubmit={handleSubmit} noValidate>
                   <div className="form-group">
                     <div className={`${styles["input-icon1"]}`}>
                       <span className={`${errors.firstName ? `${styles["icon-error"]}` : `${styles["icon-envelope"]}`}`}>
