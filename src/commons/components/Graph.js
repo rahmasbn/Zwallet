@@ -11,12 +11,8 @@ import LoadingComponent from "./LoadingComponent";
 
 function Graph() {
   const user = useSelector((state) => state.auth.authUser);
-  // const chart = useSelector((state) => state.chart.data);
-  // const dispatch = useDispatch();
   const [chart, setChart] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  // const [listIncome, setListIncome] = useState([]);
-  // const [listExpense, setListExpense] = useState([]);
   const formatIncome = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",

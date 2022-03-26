@@ -70,10 +70,6 @@ function MyProfile() {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 3000,
         });
-        // console.log("update", userData.image);
-        // if (image !== null && typeof image !== "undefined") {
-        //   dispatch(updateUserPhoto(image));
-        // }
       })
       .catch((err) => {
         console.log(err);

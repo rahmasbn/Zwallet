@@ -120,10 +120,6 @@ function PersonalInfo() {
             </div>
             <div className="card border-0 shadow mb-3">
               <div className={`${styles["card-body"]}`}>
-                {/* <p className="text-muted">Last Name</p>
-                <h5 className={`fw-bold m-0 ${styles.userInfo}`}>
-                  {userData.lastName}
-                </h5> */}
                 {!show ? (
                   <>
                     <div className="d-flex">

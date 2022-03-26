@@ -16,8 +16,6 @@ function History() {
   const token = useSelector((state) => state.auth.authUser.token);
   const [history, setHistory] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  // const [filterData, setFilterData] = useState("WEEK");
-  // const [page, setPage] = useState(null);
 
   const showTransaction = (data) => {
     const card = [];

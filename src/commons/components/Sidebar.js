@@ -56,7 +56,6 @@ function Sidebar() {
               <Link
                 href={{
                   pathname: "/dashboard",
-                  // query: { id: router.query.id },
                 }}
                 passHref
               >
@@ -80,7 +79,6 @@ function Sidebar() {
               <Link
                 href={{
                   pathname: "/transfer",
-                  // query: { id: router.query.id },
                 }}
                 passHref
               >

@@ -28,7 +28,6 @@ function ChangePIN() {
   };
 
   const router = useRouter();
-  // const [isVerify, setIsVerify] = useState(false);
   const [pinCode, setPinCode] = useState(0);
   const user = useSelector((state) => state.auth.authUser);
 
