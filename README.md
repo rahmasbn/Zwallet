@@ -1,34 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ZWallet
+[![react-router-dom](https://img.shields.io/npm/v/react-router-dom?label=react-router-dom)](https://www.npmjs.com/package/react-router-dom)
+[![axios](https://img.shields.io/npm/v/axios?label=axios)](https://www.npmjs.com/package/axios)
+[![bootstrap](https://img.shields.io/npm/v/bootstrap?label=bootstrap)](https://www.npmjs.com/package/react-bootstrap)
+[![redux](https://img.shields.io/npm/v/redux?label=redux)](https://www.npmjs.com/package/redux)
+[![react-toastify](https://img.shields.io/npm/v/react-toastify?label=react-toastify)](https://www.npmjs.com/package/react-toastify)
+[![recharts](https://img.shields.io/npm/v/recharts?label=recharts)](https://www.npmjs.com/package/recharts)
+[![react-pin-input](https://img.shields.io/npm/v/react-pin-input?label=react-pin-input)](https://www.npmjs.com/package/react-pin-input)
 
-## Getting Started
+This is an application that was built using Next JS that offers easy and fast transaction services for users.
 
-First, run the development server:
+## Interface
+### Dashboard
+![dashboard](https://drive.google.com/uc?export=download&id=1R1aR5noFJ9WuSu-j0mMaz0VHQEp94hW4)
+### Detail Transaction
+![detail](https://drive.google.com/uc?export=download&id=1-3SFIc6eZMSPht7Tdmstgh7hhYli8PDv)
+### Profile
+![profile](https://drive.google.com/uc?export=download&id=1k9F2ujl4AbbDFFTLg8435sTIjhxtuR1V)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Features
+- Login/Register
+- Forgot Password
+- Create/Change PIN
+- Update Profile
+- Transactions
+- History Transaction
+- Charts
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How to use
+1. Clone this repository with `git clone https://github.com/rahmasbn/Zwallet`.
+2. Run `npm i` to install all modules required.
+3. Set .env.local file in root:
+    - `NEXT_PUBLIC_HOST` = http://localhost:PORT
+4. Run `npm run dev`.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Documentation
+- [Deploy](https://zwallet-xi.vercel.app/)
+- [Postman Collection](https://drive.google.com/file/d/1MS-JQIxvP5lmmjTz3DUIROnFo-Aid35b/view)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

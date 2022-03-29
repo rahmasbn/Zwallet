@@ -18,6 +18,7 @@ function Amount() {
   const id = router.query.id;
   const [userData, setUserData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const token = useSelector((state) => state.auth.authUser.token);
   const dataUser = useSelector((state) => state.user.userData);
   const formatBalance = new Intl.NumberFormat("id-ID", {
@@ -63,7 +64,6 @@ function Amount() {
       });
   }, [token, id]);
 
-  // console.log("user", userData);
   return (
     <>
       <Layout title={`Transfer | Zwallet`} />
@@ -90,14 +90,14 @@ function Amount() {
                                 <Image
                                   // src={avatar}
                                   src={
-                                    userData.image !== null
-                                      ? `${process.env.NEXT_PUBLIC_HOST}/uploads/${userData.image}`
-                                      : avatar
+                                    isError === true
+                                      ? avatar
+                                      : `${process.env.NEXT_PUBLIC_HOST}/uploads/${userData.image}`
                                   }
                                   placeholder="blur"
                                   blurDataURL={avatar}
                                   onError={() => {
-                                    avatar;
+                                    setIsError(true);
                                   }}
                                   alt="user"
                                   width={30}
@@ -130,7 +130,7 @@ function Amount() {
                             type="number"
                             name="amount"
                             placeholder="0.00"
-                            max={userData.balance}
+                            max={dataUser.balance}
                             className={`form-control text-center fw-bold border-0 mb-2 ${styles["form-control"]}`}
                           />
                         </div>

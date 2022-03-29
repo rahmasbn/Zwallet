@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { exportHistory, historyById } from "src/modules/utils/transaction";
 import Link from "next/link";
+import LoadingComponent from "src/commons/components/LoadingComponent";
 
 function HistoryDetail() {
   const router = useRouter();
@@ -19,6 +20,7 @@ function HistoryDetail() {
   const authUser = useSelector((state) => state.auth.authUser);
   const user = useSelector((state) => state.user.userData);
   const [detailHistory, setDetailHistory] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const formatAmount = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
@@ -49,17 +51,19 @@ function HistoryDetail() {
   };
 
   useEffect(() => {
+    // setIsLoading(true);
     const { id } = router.query;
     historyById(id, authUser.token)
-      .then((res) => {
-        // console.log(res.data.data[0]);
-        setDetailHistory(res.data.data[0]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    .then((res) => {
+      // console.log(res.data.data[0]);
+      setDetailHistory(res.data.data[0]);
+      // setIsLoading(false);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }, [router, dispatch, detailHistory, authUser.token]);
-  //   console.log('history', detailHistory)
+  // console.log('history', detailHistory.status)
   return (
     <>
       <Layout title={`Transaction Detail | Zwallet`} />
@@ -74,146 +78,162 @@ function HistoryDetail() {
               className={`card border-0 shadow py-2 px-3 ${styles.overflow} ${styles.card}`}
             >
               <div className="card-body">
-                <div className={`ms-auto me-auto mb-3 ${styles["status-img"]}`}>
-                  <Image
-                    src={detailHistory.status === "success" ? success : failed}
-                    alt="status"
-                  />
-                </div>
-                <h5 className="fw-bold text-center mb-5">
-                  {detailHistory.status === "success"
-                    ? "Transaction Success"
-                    : "Transaction Failed"}
-                </h5>
-                {detailHistory.type === "send" ||
-                detailHistory.type === "accept" ? (
+                {!isLoading ? (
                   <>
-                    <div className="card border-0 shadow mb-2">
-                      <div className={`${styles["card-body"]}`}>
-                        <p className="text-muted mb-2">Amount</p>
-                        <p className={`fw-bold m-0 ${styles.detail}`}>
-                          {formatAmount}
-                        </p>
-                      </div>
+                    <div
+                      className={`ms-auto me-auto mb-3 ${styles["status-img"]}`}
+                    >
+                      <Image
+                        src={
+                          detailHistory.status === "success" ? success : failed
+                        }
+                        // src={success}
+                        alt="status"
+                      />
                     </div>
-                    <div className="card border-0 shadow mb-2">
-                      <div className={` ${styles["card-body"]}`}>
-                        <p className="text-muted mb-2">Balance Left</p>
-                        <p className={`fw-bold m-0 ${styles.detail}`}>
-                          {formatBalance}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="card border-0 shadow mb-2">
-                      <div className={`${styles["card-body"]}`}>
-                        <p className="text-muted mb-2">{`Date & Time`}</p>
-                        <p className={`fw-bold m-0 ${styles.detail}`}>{date}</p>
-                      </div>
-                    </div>
-                    <div className="card border-0 shadow mb-5">
-                      <div className={` ${styles["card-body"]}`}>
-                        <p className="text-muted mb-2">Notes</p>
-                        <p className={`fw-bold m-0 ${styles.detail}`}>
-                          {detailHistory.notes}
-                        </p>
-                      </div>
-                    </div>
-                    <h5 className="fw-bold mb-3">
-                      {detailHistory.type === "accept"
-                        ? "Transfer From"
-                        : "Transfer To"}
+                    <h5 className="fw-bold text-center mb-5">
+                      {detailHistory.status === "success"
+                        ? "Transaction Success"
+                        : "Transaction Failed"}
                     </h5>
-                    <div className="card border-0 shadow mb-4">
-                      <div className={`d-flex ${styles["card-body"]}`}>
-                        <div className="align-self-center d-flex">
-                          <div className={`${styles["wrapper-img"]} me-5`}>
-                            <Image
-                              src={avatar}
-                              alt="user"
-                              layout="responsive"
-                              className={`${styles["img-user"]}`}
-                            />
-                          </div>
-                          <div className="align-self-center">
-                            <h6 className="fw-bold">
-                              {detailHistory.firstName} {detailHistory.lastName}
-                            </h6>
-                            <p className="text-muted m-0">
-                              {detailHistory.noTelp
-                                ? detailHistory.noTelp
-                                : "-"}
+                    {detailHistory.type === "send" ||
+                    detailHistory.type === "accept" ? (
+                      <>
+                        <div className="card border-0 shadow mb-2">
+                          <div className={`${styles["card-body"]}`}>
+                            <p className="text-muted mb-2">Amount</p>
+                            <p className={`fw-bold m-0 ${styles.detail}`}>
+                              {formatAmount}
                             </p>
                           </div>
                         </div>
+                        <div className="card border-0 shadow mb-2">
+                          <div className={` ${styles["card-body"]}`}>
+                            <p className="text-muted mb-2">Balance Left</p>
+                            <p className={`fw-bold m-0 ${styles.detail}`}>
+                              {formatBalance}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="card border-0 shadow mb-2">
+                          <div className={`${styles["card-body"]}`}>
+                            <p className="text-muted mb-2">{`Date & Time`}</p>
+                            <p className={`fw-bold m-0 ${styles.detail}`}>
+                              {date}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="card border-0 shadow mb-5">
+                          <div className={` ${styles["card-body"]}`}>
+                            <p className="text-muted mb-2">Notes</p>
+                            <p className={`fw-bold m-0 ${styles.detail}`}>
+                              {detailHistory.notes}
+                            </p>
+                          </div>
+                        </div>
+                        <h5 className="fw-bold mb-3">
+                          {detailHistory.type === "accept"
+                            ? "Transfer From"
+                            : "Transfer To"}
+                        </h5>
+                        <div className="card border-0 shadow mb-4">
+                          <div className={`d-flex ${styles["card-body"]}`}>
+                            <div className="align-self-center d-flex">
+                              <div className={`${styles["wrapper-img"]} me-5`}>
+                                <Image
+                                  src={avatar}
+                                  alt="user"
+                                  layout="responsive"
+                                  className={`${styles["img-user"]}`}
+                                />
+                              </div>
+                              <div className="align-self-center">
+                                <h6 className="fw-bold">
+                                  {detailHistory.firstName}{" "}
+                                  {detailHistory.lastName}
+                                </h6>
+                                <p className="text-muted m-0">
+                                  {detailHistory.noTelp
+                                    ? detailHistory.noTelp
+                                    : "-"}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="card border-0 shadow mb-2">
+                          <div className={`${styles["card-body"]}`}>
+                            <p className="text-muted mb-2">Amount</p>
+                            <p className={`fw-bold m-0 ${styles.detail}`}>
+                              {formatAmount}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="card border-0 shadow mb-2">
+                          <div className={` ${styles["card-body"]}`}>
+                            <p className="text-muted mb-2">Balance Left</p>
+                            <p className={`fw-bold m-0 ${styles.detail}`}>
+                              {formatBalance}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="card border-0 shadow mb-2">
+                          <div className={`${styles["card-body"]}`}>
+                            <p className="text-muted mb-2">{`Date & Time`}</p>
+                            <p className={`fw-bold m-0 ${styles.detail}`}>
+                              {date}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="card border-0 shadow mb-5">
+                          <div className={` ${styles["card-body"]}`}>
+                            <p className="text-muted mb-2">Type</p>
+                            <p className={`fw-bold m-0 ${styles.detail}`}>
+                              {detailHistory.type}
+                            </p>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    {detailHistory.type !== "topup" ? (
+                      <div className="pt-3 d-flex justify-content-end">
+                        <button
+                          type="button"
+                          onClick={onDownload}
+                          className={`btn btn-lg me-3 ${styles["btn-download"]}`}
+                        >
+                          <span className="bi bi-download"></span>
+                          <small className="col-12 ps-1 fw-bold">
+                            Download PDF
+                          </small>
+                        </button>
+                        <Link href={"/dashboard"} passHref>
+                          <button
+                            type="button"
+                            className={`btn btn-lg ${styles["btn-back"]}`}
+                          >
+                            <small className="col-12">Back to Home</small>
+                          </button>
+                        </Link>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="pt-3 d-flex justify-content-end">
+                        <Link href={"/dashboard"} passHref>
+                          <button
+                            type="button"
+                            className={`btn btn-lg ${styles["btn-back"]}`}
+                          >
+                            <small className="col-12">Back to Home</small>
+                          </button>
+                        </Link>
+                      </div>
+                    )}
                   </>
                 ) : (
-                  <>
-                    <div className="card border-0 shadow mb-2">
-                      <div className={`${styles["card-body"]}`}>
-                        <p className="text-muted mb-2">Amount</p>
-                        <p className={`fw-bold m-0 ${styles.detail}`}>
-                          {formatAmount}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="card border-0 shadow mb-2">
-                      <div className={` ${styles["card-body"]}`}>
-                        <p className="text-muted mb-2">Balance Left</p>
-                        <p className={`fw-bold m-0 ${styles.detail}`}>
-                          {formatBalance}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="card border-0 shadow mb-2">
-                      <div className={`${styles["card-body"]}`}>
-                        <p className="text-muted mb-2">{`Date & Time`}</p>
-                        <p className={`fw-bold m-0 ${styles.detail}`}>{date}</p>
-                      </div>
-                    </div>
-                    <div className="card border-0 shadow mb-5">
-                      <div className={` ${styles["card-body"]}`}>
-                        <p className="text-muted mb-2">Type</p>
-                        <p className={`fw-bold m-0 ${styles.detail}`}>
-                          {detailHistory.type}
-                        </p>
-                      </div>
-                    </div>
-                  </>
-                )}
-                {detailHistory.type !== "topup" ? (
-                  <div className="pt-3 d-flex justify-content-end">
-                    <button
-                      type="button"
-                      onClick={onDownload}
-                      className={`btn btn-lg me-3 ${styles["btn-download"]}`}
-                    >
-                      <span className="bi bi-download"></span>
-                      <small className="col-12 ps-1 fw-bold">
-                        Download PDF
-                      </small>
-                    </button>
-                    <Link href={"/dashboard"} passHref>
-                      <button
-                        type="button"
-                        className={`btn btn-lg ${styles["btn-back"]}`}
-                      >
-                        <small className="col-12">Back to Home</small>
-                      </button>
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="pt-3 d-flex justify-content-end">
-                    <Link href={"/dashboard"} passHref>
-                      <button
-                        type="button"
-                        className={`btn btn-lg ${styles["btn-back"]}`}
-                      >
-                        <small className="col-12">Back to Home</small>
-                      </button>
-                    </Link>
-                  </div>
+                  <LoadingComponent />
                 )}
               </div>
             </div>
